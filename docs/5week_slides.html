@@ -1,4 +1,4 @@
-<!doctype html><html lang='ko'><head><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;800&display=swap' rel='stylesheet'><meta name='viewport' content='width=device-width,initial-scale=1'><title>5주차 진행 보고</title><meta charset='utf-8'><style>
+<!doctype html><html lang='ko'><head><meta name='viewport' content='width=device-width,initial-scale=1'><title>5주차 진행 보고</title><link href='https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;800&display=swap' rel='stylesheet'><meta charset='utf-8'><style>
 @page{size:1280px 720px;margin:0}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Noto Sans KR","Noto Sans CJK KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;color:#1f2937;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -91,16 +91,39 @@ dl dd{font-size:17px;color:#475569;margin-top:3px}
 .nx li:before{content:"✓";position:absolute;left:0;color:#2563eb;font-weight:700}
 .nx li.must{font-weight:700;color:#7c3aed}.nx li.must:before{color:#7c3aed}
 
-@media screen{
-html,body{height:100%;overflow:hidden;background:#e8ecf3}
-#deck{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center center}
+.s0{font-size:17px;color:#64748b;margin:-16px 0 20px}
+.r3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.rc{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px}
+.rch{display:flex;justify-content:space-between;align-items:center}.rch h3{margin:0;font-size:22px}
+.bd{font-size:14px;font-weight:700;padding:5px 11px;border-radius:12px}
+.bd.ok{background:#dcfce7;color:#15803d}.bd.ng{background:#fee2e2;color:#b91c1c}
+.rv{font-size:56px;font-weight:800;color:#0f172a;margin-top:10px;line-height:1.1}.rv small{font-size:26px;color:#64748b}
+.rs{font-size:15px;color:#64748b;margin:6px 0 20px}
+.rb{position:relative;height:40px;margin-bottom:16px}
+.rbt{position:absolute;left:0;right:0;top:10px;height:10px;background:#f1f5f9;border-radius:5px}
+.band{position:absolute;top:10px;height:10px;background:#bfdbfe;border-radius:5px}
+.mk{position:absolute;top:3px;width:4px;height:24px;border-radius:2px;transform:translateX(-2px)}
+.mk.ok{background:#16a34a}.mk.ng{background:#dc2626}
+.lb{position:absolute;top:26px;font-size:12px;color:#94a3b8}
+.rm{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #f1f5f9;padding-top:14px;text-align:center}
+.rm b{display:block;font-size:22px;color:#1e3a8a}.rm span{font-size:13px;color:#64748b}
+.obs{margin-top:22px;background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:14px 20px;font-size:17px;color:#7c2d12}
+.obs b{color:#c2410c;margin-right:10px}
+.dt{display:flex;gap:40px;align-items:flex-start}
+.dl{flex:0 0 320px;display:flex;flex-direction:column;align-items:center}
+.lg{display:flex;flex-direction:column;gap:6px;margin-top:10px;font-size:15px;color:#334155}
+.lg i,.pt i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:8px;vertical-align:middle}
+.tg{margin-top:10px;font-size:15px;color:#64748b}
+.pt{flex:1}.pt td{padding:8px 14px;font-size:16px}.pt th{padding:9px 14px;font-size:15px}
+.pt .r{font-weight:700;color:#1d4ed8}
+.g{font-size:12px;font-weight:700;padding:2px 8px;border-radius:8px}.g.A{background:#ffedd5;color:#c2410c}.g.B{background:#dbeafe;color:#1d4ed8}
+@media screen{html,body{height:100%;overflow:hidden;background:#e8ecf3}
+#deck{position:absolute;left:50%;top:50%;width:1280px;height:720px}
 #deck>section{position:absolute;inset:0;display:none;box-shadow:0 10px 40px rgba(15,23,42,.15)}
 #deck>section.active{display:flex}
-#ctr{position:fixed;left:50%;transform:translateX(-50%);bottom:10px;font:600 14px "Noto Sans CJK KR",sans-serif;color:#64748b;background:rgba(255,255,255,.85);padding:6px 12px;border-radius:14px}
-#hint{position:fixed;left:18px;bottom:14px;font:13px "Noto Sans CJK KR",sans-serif;color:#94a3b8}
-}
-@media print{#ctr,#hint{display:none}}
-</style></head><body><div id="deck"><section class="cover"><div class="bar"></div>
+#ctr{position:fixed;left:50%;transform:translateX(-50%);bottom:10px;font:600 14px sans-serif;color:#64748b;background:rgba(255,255,255,.85);padding:6px 12px;border-radius:14px}
+#hint{position:fixed;left:18px;bottom:14px;font:13px sans-serif;color:#94a3b8}}
+@media print{#ctr,#hint{display:none}}</style></head><body><div id="deck"><section class="cover"><div class="bar"></div>
 <p class="wk">5주차 진행 보고</p>
 <h1>투자성향 기반<br>배당포트폴리오 추천 웹서비스</h1>
 <p class="sub">실데이터 연동 · 사용자 시나리오 · 막힌 점과 개선</p>
@@ -110,7 +133,7 @@ html,body{height:100%;overflow:hidden;background:#e8ecf3}
 <div class="k"><div class="big">API</div><h3>실데이터 연동 시작</h3><p>주식시세·배당정보 API를 실제로 호출해 배당주 데이터를 받아옴</p></div>
 <div class="k"><div class="big">16</div><h3>막힌 점 16건 해결</h3><p>통신, 조회 방식, 회사명 매칭, 배당률 계산 등</p></div>
 <div class="k"><div class="big">27</div><h3>종목 재구성</h3><p>실측 배당률로 2종목 제외, 3종목 추가 (26 → 27)</p></div>
-<div class="k"><div class="big">↓</div><h3>목표구간 재산정</h3><p>더미 기준 구간을 실측 분포에 맞춰 하향 조정</p></div>
+<div class="k"><div class="big">↓</div><h3>목표구간 재산정</h3><p>더미 기준 구간을 실측 분포에 맞춰 두 차례 조정</p></div>
 </div>
 <p class="foot">추가: 비중 조절 화면에서 ETF·배당주 유형을 각각 고를 수 있도록 구조 변경</p></section><section><h2>사용자 문제와 서비스의 답</h2>
 <table class="hyp"><tr><th>사용자가 겪는 문제 (가설)</th><th>서비스가 해결하는 방식</th></tr>
@@ -141,7 +164,7 @@ html,body{height:100%;overflow:hidden;background:#e8ecf3}
 <table class="t"><tr><th>카테고리</th><th class="c">건수</th><th>핵심</th></tr>
 <tr><td>연동 자체</td><td class="c">3</td><td>HTTP 클라이언트 빈 응답 → RestTemplate(HTTP/1.1)로 통일</td></tr>
 <tr><td>날짜 · 조회 방식</td><td class="c">3</td><td>배당정보 API는 당일 스냅샷 방식</td></tr>
-<tr class="em"><td>데이터 정합성</td><td class="c">2</td><td>회사명 불일치, 액면가 기준 배당률 — 가장 오래 걸림</td></tr>
+<tr><td>데이터 정합성</td><td class="c">2</td><td>회사명 불일치, 액면가 기준 배당률</td></tr>
 <tr><td>배당률 계산 로직</td><td class="c">2 + 버그 2</td><td>3차 개정으로 확정</td></tr>
 <tr><td>데이터에서 나온 결정</td><td class="c">3</td><td>종목 교체, 목표구간 재산정</td></tr>
 <tr><td>DB 반영</td><td class="c">1</td><td>컬럼 3개 추가, 유형 분리</td></tr></table></section><section><h2>연동 · 조회 방식 (6건)</h2>
@@ -152,7 +175,7 @@ html,body{height:100%;overflow:hidden;background:#e8ecf3}
 <div class="box"><h3>날짜 · 조회 방식</h3>
 <dl><dt>주말·공휴일 시세 조회 시 0건</dt><dd>정상 동작 확인, 영업일로 조회</dd>
 <dt>배당정보 API에 과거 날짜 넣으면 0건</dt><dd>당일만 유효한 스냅샷 방식임을 확인</dd>
-<dt>배당 이력이 오래된 순 정렬</dt><dd>마지막 페이지 계산 → 법인번호 조회로 우회</dd></dl></div></div></section><section><h2>데이터 정합성 (2건) — 가장 오래 걸린 부분</h2>
+<dt>배당 이력이 오래된 순 정렬</dt><dd>마지막 페이지 계산 → 법인번호 조회로 우회</dd></dl></div></div></section><section><h2>데이터 정합성 (2건)</h2>
 <div class="two"><div class="box"><h3>같은 회사, 다른 이름</h3><p class="s">가격 API와 배당 API의 회사명 표기가 달라 이름으로 매칭 불가</p>
 <table class="t sm"><tr><th>표기 A</th><th>표기 B</th></tr>
 <tr><td>HS애드</td><td>에이치에스애드</td></tr><tr><td>SNT모티브</td><td>에스앤티모티브</td></tr>
@@ -171,24 +194,40 @@ html,body{height:100%;overflow:hidden;background:#e8ecf3}
 <div class="row out"><b>제외</b> 미래에셋증권<span>배당률 0.93%</span></div>
 <div class="row in"><b>추가</b> 삼성카드 · KT · KT&amp;G<span>이익소각 위주 종목은 배제</span></div></div>
 <div class="box"><h3>목표 배당률 구간 재산정</h3>
-<table class="t sm"><tr><th>유형</th><th class="c">이전 (더미)</th><th class="c">변경 (실측 27종목)</th></tr>
-<tr><td>원금집중형</td><td class="c old">6 ~ 7%</td><td class="c nw">4 ~ 5.5%</td></tr>
-<tr><td>균형형</td><td class="c old">7 ~ 8.5%</td><td class="c nw">5.5 ~ 7%</td></tr>
-<tr><td>배당집중형</td><td class="c old">8.5 ~ 10%</td><td class="c nw">7 ~ 8.5%</td></tr></table>
-<p class="s">더미로 잡은 구간이 실제 배당률 분포보다 높게 설정돼 있었음</p></div></div></section><section><h2>DB 반영과 다음 주 계획</h2>
+<table class="t sm"><tr><th>유형</th><th class="c">더미 기준</th><th class="c">1차 (실측 분포)</th><th class="c">최종</th></tr>
+<tr><td>원금집중형</td><td class="c old">6 ~ 7%</td><td class="c old">4 ~ 5.5%</td><td class="c nw">5 ~ 6.5%</td></tr>
+<tr><td>균형형</td><td class="c old">7 ~ 8.5%</td><td class="c old">5.5 ~ 7%</td><td class="c nw">6.5 ~ 8%</td></tr>
+<tr><td>배당집중형</td><td class="c old">8.5 ~ 10%</td><td class="c old">7 ~ 8.5%</td><td class="c nw">8 ~ 9.5%</td></tr></table>
+<p class="s" style="margin-top:12px">더미 구간은 실제 분포보다 높았고, 실측 27종목 분포와 엔진 실행 결과를 보며 두 차례 조정</p></div></div></section><section><h2>실데이터 실행 결과 — 배당주 엔진</h2><p class="s0">실제 API로 받은 배당금·종가 기준 27종목을 엔진에 넣어 3유형을 산출</p>
+<div class="r3"><div class="rc"><div class="rch"><h3>원금집중형</h3><span class="bd ok">목표구간 안</span></div>
+<div class="rv">5.14<small>%</small></div><div class="rs">가중평균 배당률 · 목표 5 ~ 6.5%</div><div class="rb"><div class="rbt"></div><div class="band" style="left:37.5%;width:18.8%"></div>
+<div class="mk ok" style="left:39.2%"></div><span class="lb" style="left:0">2%</span><span class="lb" style="right:0">10%</span></div>
+<div class="rm"><div><b>10</b><span>종목</span></div><div><b>1 : 9</b><span>그룹A : B</span></div><div><b>1.99</b><span>평균 변동성</span></div></div></div><div class="rc"><div class="rch"><h3>균형형</h3><span class="bd ok">목표구간 안</span></div>
+<div class="rv">7.46<small>%</small></div><div class="rs">가중평균 배당률 · 목표 6.5 ~ 8%</div><div class="rb"><div class="rbt"></div><div class="band" style="left:56.2%;width:18.8%"></div>
+<div class="mk ok" style="left:68.2%"></div><span class="lb" style="left:0">2%</span><span class="lb" style="right:0">10%</span></div>
+<div class="rm"><div><b>10</b><span>종목</span></div><div><b>5 : 5</b><span>그룹A : B</span></div><div><b>1.72</b><span>평균 변동성</span></div></div></div><div class="rc"><div class="rch"><h3>배당집중형</h3><span class="bd ok">목표구간 안</span></div>
+<div class="rv">8.03<small>%</small></div><div class="rs">가중평균 배당률 · 목표 8 ~ 9.5%</div><div class="rb"><div class="rbt"></div><div class="band" style="left:75.0%;width:18.8%"></div>
+<div class="mk ok" style="left:75.4%"></div><span class="lb" style="left:0">2%</span><span class="lb" style="right:0">10%</span></div>
+<div class="rm"><div><b>10</b><span>종목</span></div><div><b>8 : 2</b><span>그룹A : B</span></div><div><b>1.90</b><span>평균 변동성</span></div></div></div></div>
+<div class="obs"><b>참고</b> 3유형 모두 목표구간 안 · 원금집중형과 배당집중형은 구간 하한 근처</div></section><section><h2>원금집중형 <span class="bd ok">목표구간 안</span></h2>
+<div class="dt"><div class="dl"><svg width="300" height="300" viewBox="0 0 300 300"><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#f97316" stroke-width="46" stroke-dasharray="98.01 593.14" stroke-dashoffset="0.00" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#2563eb" stroke-width="46" stroke-dasharray="81.01 610.14" stroke-dashoffset="-100.01" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#3b82f6" stroke-width="46" stroke-dasharray="75.96 615.19" stroke-dashoffset="-183.02" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#60a5fa" stroke-width="46" stroke-dasharray="73.96 617.19" stroke-dashoffset="-260.98" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#6366f1" stroke-width="46" stroke-dasharray="67.32 623.83" stroke-dashoffset="-336.94" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#818cf8" stroke-width="46" stroke-dasharray="59.10 632.05" stroke-dashoffset="-406.26" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#0ea5e9" stroke-width="46" stroke-dasharray="57.92 633.23" stroke-dashoffset="-467.36" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#38bdf8" stroke-width="46" stroke-dasharray="54.26 636.89" stroke-dashoffset="-527.28" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#1d4ed8" stroke-width="46" stroke-dasharray="53.29 637.86" stroke-dashoffset="-583.54" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#93c5fd" stroke-width="46" stroke-dasharray="50.32 640.83" stroke-dashoffset="-638.83" transform="rotate(-90 150.0 150.0)"/><text x="150.0" y="146.0" text-anchor="middle" font-size="40" font-weight="800" fill="#0f172a">5.14%</text><text x="150.0" y="178.0" text-anchor="middle" font-size="16" fill="#64748b">가중평균 배당률</text></svg>
+<div class="lg"><span><i style="background:#f97316"></i>그룹A 고배당 1</span><span><i style="background:#2563eb"></i>그룹B 대형안정 9</span></div>
+<p class="tg">목표 5 ~ 6.5%</p></div>
+<table class="t pt"><tr><th>종목</th><th class="c">그룹</th><th class="c">배당률</th><th class="c">변동성</th><th class="c">비중</th></tr><tr><td><i style="background:#f97316"></i>한솔로지스틱스</td><td class="c"><span class="g A">A</span></td><td class="c">9.44%</td><td class="c">1.25</td><td class="c r">14.47%</td></tr><tr><td><i style="background:#2563eb"></i>기업은행</td><td class="c"><span class="g B">B</span></td><td class="c">6.02%</td><td class="c">1.55</td><td class="c r">12.01%</td></tr><tr><td><i style="background:#3b82f6"></i>삼성카드</td><td class="c"><span class="g B">B</span></td><td class="c">6.46%</td><td class="c">1.91</td><td class="c r">11.28%</td></tr><tr><td><i style="background:#60a5fa"></i>KT</td><td class="c"><span class="g B">B</span></td><td class="c">4.54%</td><td class="c">1.66</td><td class="c r">10.99%</td></tr><tr><td><i style="background:#6366f1"></i>KT&G</td><td class="c"><span class="g B">B</span></td><td class="c">3.76%</td><td class="c">1.88</td><td class="c r">10.03%</td></tr><tr><td><i style="background:#818cf8"></i>우리금융지주</td><td class="c"><span class="g B">B</span></td><td class="c">3.85%</td><td class="c">2.35</td><td class="c r">8.84%</td></tr><tr><td><i style="background:#0ea5e9"></i>하나금융지주</td><td class="c"><span class="g B">B</span></td><td class="c">3.39%</td><td class="c">2.33</td><td class="c r">8.67%</td></tr><tr><td><i style="background:#38bdf8"></i>신한지주</td><td class="c"><span class="g B">B</span></td><td class="c">2.63%</td><td class="c">2.39</td><td class="c r">8.14%</td></tr><tr><td><i style="background:#1d4ed8"></i>KB금융</td><td class="c"><span class="g B">B</span></td><td class="c">2.77%</td><td class="c">2.47</td><td class="c r">8.00%</td></tr><tr><td><i style="background:#93c5fd"></i>NH투자증권</td><td class="c"><span class="g B">B</span></td><td class="c">4.99%</td><td class="c">3.05</td><td class="c r">7.57%</td></tr></table></div></section><section><h2>균형형 <span class="bd ok">목표구간 안</span></h2>
+<div class="dt"><div class="dl"><svg width="300" height="300" viewBox="0 0 300 300"><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#f97316" stroke-width="46" stroke-dasharray="92.89 598.26" stroke-dashoffset="0.00" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#fb923c" stroke-width="46" stroke-dasharray="86.12 605.03" stroke-dashoffset="-94.89" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#f59e0b" stroke-width="46" stroke-dasharray="77.76 613.39" stroke-dashoffset="-183.02" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#fbbf24" stroke-width="46" stroke-dasharray="72.58 618.58" stroke-dashoffset="-262.78" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#ef4444" stroke-width="46" stroke-dasharray="64.90 626.25" stroke-dashoffset="-337.35" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#2563eb" stroke-width="46" stroke-dasharray="64.83 626.32" stroke-dashoffset="-404.25" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#3b82f6" stroke-width="46" stroke-dasharray="62.83 628.32" stroke-dashoffset="-471.09" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#60a5fa" stroke-width="46" stroke-dasharray="55.85 635.30" stroke-dashoffset="-535.92" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#6366f1" stroke-width="46" stroke-dasharray="49.21 641.94" stroke-dashoffset="-593.77" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#818cf8" stroke-width="46" stroke-dasharray="44.17 646.98" stroke-dashoffset="-644.98" transform="rotate(-90 150.0 150.0)"/><text x="150.0" y="146.0" text-anchor="middle" font-size="40" font-weight="800" fill="#0f172a">7.46%</text><text x="150.0" y="178.0" text-anchor="middle" font-size="16" fill="#64748b">가중평균 배당률</text></svg>
+<div class="lg"><span><i style="background:#f97316"></i>그룹A 고배당 5</span><span><i style="background:#2563eb"></i>그룹B 대형안정 5</span></div>
+<p class="tg">목표 6.5 ~ 8%</p></div>
+<table class="t pt"><tr><th>종목</th><th class="c">그룹</th><th class="c">배당률</th><th class="c">변동성</th><th class="c">비중</th></tr><tr><td><i style="background:#f97316"></i>HS애드</td><td class="c"><span class="g A">A</span></td><td class="c">12.21%</td><td class="c">1.89</td><td class="c r">13.73%</td></tr><tr><td><i style="background:#fb923c"></i>한솔로지스틱스</td><td class="c"><span class="g A">A</span></td><td class="c">9.44%</td><td class="c">1.25</td><td class="c r">12.75%</td></tr><tr><td><i style="background:#f59e0b"></i>한국철강</td><td class="c"><span class="g A">A</span></td><td class="c">7.83%</td><td class="c">1.25</td><td class="c r">11.54%</td></tr><tr><td><i style="background:#fbbf24"></i>강원랜드</td><td class="c"><span class="g A">A</span></td><td class="c">6.57%</td><td class="c">1.14</td><td class="c r">10.79%</td></tr><tr><td><i style="background:#ef4444"></i>한국특강</td><td class="c"><span class="g A">A</span></td><td class="c">8.89%</td><td class="c">2.80</td><td class="c r">9.68%</td></tr><tr><td><i style="background:#2563eb"></i>기업은행</td><td class="c"><span class="g B">B</span></td><td class="c">6.02%</td><td class="c">1.55</td><td class="c r">9.67%</td></tr><tr><td><i style="background:#3b82f6"></i>삼성카드</td><td class="c"><span class="g B">B</span></td><td class="c">6.46%</td><td class="c">1.91</td><td class="c r">9.38%</td></tr><tr><td><i style="background:#60a5fa"></i>KT</td><td class="c"><span class="g B">B</span></td><td class="c">4.54%</td><td class="c">1.66</td><td class="c r">8.37%</td></tr><tr><td><i style="background:#6366f1"></i>KT&G</td><td class="c"><span class="g B">B</span></td><td class="c">3.76%</td><td class="c">1.88</td><td class="c r">7.41%</td></tr><tr><td><i style="background:#818cf8"></i>우리금융지주</td><td class="c"><span class="g B">B</span></td><td class="c">3.85%</td><td class="c">2.35</td><td class="c r">6.68%</td></tr></table></div></section><section><h2>배당집중형 <span class="bd ok">목표구간 안</span></h2>
+<div class="dt"><div class="dl"><svg width="300" height="300" viewBox="0 0 300 300"><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#f97316" stroke-width="46" stroke-dasharray="102.92 588.23" stroke-dashoffset="0.00" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#fb923c" stroke-width="46" stroke-dasharray="86.67 604.48" stroke-dashoffset="-104.92" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#f59e0b" stroke-width="46" stroke-dasharray="74.37 616.78" stroke-dashoffset="-193.59" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#fbbf24" stroke-width="46" stroke-dasharray="70.92 620.23" stroke-dashoffset="-269.96" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#ef4444" stroke-width="46" stroke-dasharray="65.66 625.49" stroke-dashoffset="-342.88" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#2563eb" stroke-width="46" stroke-dasharray="59.10 632.05" stroke-dashoffset="-410.54" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#3b82f6" stroke-width="46" stroke-dasharray="58.41 632.74" stroke-dashoffset="-471.64" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#f472b6" stroke-width="46" stroke-dasharray="56.33 634.82" stroke-dashoffset="-532.05" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#fb7185" stroke-width="46" stroke-dasharray="52.60 638.55" stroke-dashoffset="-590.38" transform="rotate(-90 150.0 150.0)"/><circle cx="150.0" cy="150.0" r="110" fill="none" stroke="#fdba74" stroke-width="46" stroke-dasharray="44.17 646.98" stroke-dashoffset="-644.98" transform="rotate(-90 150.0 150.0)"/><text x="150.0" y="146.0" text-anchor="middle" font-size="40" font-weight="800" fill="#0f172a">8.03%</text><text x="150.0" y="178.0" text-anchor="middle" font-size="16" fill="#64748b">가중평균 배당률</text></svg>
+<div class="lg"><span><i style="background:#f97316"></i>그룹A 고배당 8</span><span><i style="background:#2563eb"></i>그룹B 대형안정 2</span></div>
+<p class="tg">목표 8 ~ 9.5%</p></div>
+<table class="t pt"><tr><th>종목</th><th class="c">그룹</th><th class="c">배당률</th><th class="c">변동성</th><th class="c">비중</th></tr><tr><td><i style="background:#f97316"></i>HS애드</td><td class="c"><span class="g A">A</span></td><td class="c">12.21%</td><td class="c">1.89</td><td class="c r">15.18%</td></tr><tr><td><i style="background:#fb923c"></i>한솔로지스틱스</td><td class="c"><span class="g A">A</span></td><td class="c">9.44%</td><td class="c">1.25</td><td class="c r">12.83%</td></tr><tr><td><i style="background:#f59e0b"></i>한국철강</td><td class="c"><span class="g A">A</span></td><td class="c">7.83%</td><td class="c">1.25</td><td class="c r">11.05%</td></tr><tr><td><i style="background:#fbbf24"></i>한국특강</td><td class="c"><span class="g A">A</span></td><td class="c">8.89%</td><td class="c">2.80</td><td class="c r">10.55%</td></tr><tr><td><i style="background:#ef4444"></i>강원랜드</td><td class="c"><span class="g A">A</span></td><td class="c">6.57%</td><td class="c">1.14</td><td class="c r">9.79%</td></tr><tr><td><i style="background:#2563eb"></i>삼성카드</td><td class="c"><span class="g B">B</span></td><td class="c">6.46%</td><td class="c">1.91</td><td class="c r">8.84%</td></tr><tr><td><i style="background:#3b82f6"></i>기업은행</td><td class="c"><span class="g B">B</span></td><td class="c">6.02%</td><td class="c">1.55</td><td class="c r">8.74%</td></tr><tr><td><i style="background:#f472b6"></i>SNT홀딩스</td><td class="c"><span class="g A">A</span></td><td class="c">6.59%</td><td class="c">2.41</td><td class="c r">8.44%</td></tr><tr><td><i style="background:#fb7185"></i>SNT모티브</td><td class="c"><span class="g A">A</span></td><td class="c">6.27%</td><td class="c">2.58</td><td class="c r">7.90%</td></tr><tr><td><i style="background:#fdba74"></i>교보증권</td><td class="c"><span class="g A">A</span></td><td class="c">5.50%</td><td class="c">2.93</td><td class="c r">6.68%</td></tr></table></div></section><section><h2>DB 반영과 다음 주 계획</h2>
 <div class="two"><div class="box"><h3>DB 반영</h3>
 <dl><dt>isin_cd</dt><dd>시세 API 종목 식별</dd><dt>corp_reg_no</dt><dd>회사명 불일치 해결용 매칭 키</dd>
 <dt>payments_per_year</dt><dd>연 지급횟수, 배당률 계산 상한</dd><dt>portfolio_selections</dt><dd>portfolio_type → etf_type + stock_type 분리</dd></dl></div>
-<div class="box"><h3>다음 주</h3><ul class="nx"><li>실데이터로 배당주 엔진 실행 · 목표구간 검증</li><li>변경된 스키마로 JPA 엔티티 매핑</li><li>종가 → 변동성 계산 배치 (일 1회)</li><li class="must">로그인 구현 — 중간고사 전 필수</li></ul></div></div></section></div><div id="ctr"></div><div id="hint">← → 이동 · F 전체화면</div>
-<script>
-const S=[...document.querySelectorAll('#deck>section')];let i=0;
-const d=document.getElementById('deck'),c=document.getElementById('ctr');
+<div class="box"><h3>다음 주</h3><ul class="nx"><li>ETF 실데이터 연동 — 배당주에 이어 ETF 시세·분배금을 받아 ETF 엔진에 적용</li><li>변경된 스키마로 JPA 엔티티 매핑</li><li>종가 → 변동성 계산 배치 (일 1회)</li><li>로그인,회원가입 구현 — 중간고사 전 목표</li></ul></div></div></section></div><div id="ctr"></div><div id="hint">← → 이동 · F 전체화면</div><script>
+const S=[...document.querySelectorAll('#deck>section')];let i=0;const d=document.getElementById('deck'),c=document.getElementById('ctr');
 function fit(){const k=Math.min(innerWidth/1280,innerHeight/720);d.style.transform=`translate(-50%,-50%) scale(${k})`}
 function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach((s,j)=>s.classList.toggle('active',j===i));c.textContent=(i+1)+' / '+S.length;history.replaceState(null,'','#'+(i+1))}
-addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();go(i+1)}
-else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();go(i-1)}
-else if(e.key==='Home')go(0);else if(e.key==='End')go(S.length-1);
-else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}});
-addEventListener('click',e=>{e.clientX>innerWidth/2?go(i+1):go(i-1)});
-addEventListener('resize',fit);fit();go((parseInt(location.hash.slice(1))||1)-1);
-</script></body></html>
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();go(i+1)}else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();go(i-1)}else if(e.key==='Home')go(0);else if(e.key==='End')go(S.length-1);else if(e.key==='f'||e.key==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}});
+addEventListener('click',e=>{e.clientX>innerWidth/2?go(i+1):go(i-1)});addEventListener('resize',fit);fit();go((parseInt(location.hash.slice(1))||1)-1);</script></body></html>
