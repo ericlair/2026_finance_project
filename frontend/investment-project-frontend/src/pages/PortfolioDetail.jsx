@@ -3,7 +3,9 @@ import { COLORS, FONT } from "./theme";
 import Navbar from "./Navbar";
 import { TYPE_NAMES } from "./constants";
 import { fetchBlend, getSelection } from "../api/portfolio";
-import { groupEtfHoldings, MERGED_HOLDING_NOTE } from "./holdingGrouping";
+import { getDataStatus } from "../api/dataStatus";
+import { groupHoldings, MERGED_HOLDING_NOTE } from "./holdingGrouping";
+import { formatPriceDate, formatRefreshedAt } from "./dataStatusFormat";
 
 const PALETTE = [COLORS.primary, COLORS.secondary, "#7C3AED", "#F59E0B", "#EC4899"];
 
@@ -46,6 +48,7 @@ export default function PortfolioDetail({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [savedAt, setSavedAt] = useState(null); // readOnly일 때 저장 당시(createdAt) 표시용
+  const [dataStatus, setDataStatus] = useState(null); // 새 포트폴리오 결과 화면에만 쓰는 "시세 기준일" 한 줄 — readOnly/리밸런싱엔 안 씀
 
   useEffect(() => {
     let ignore = false;
@@ -72,11 +75,28 @@ export default function PortfolioDetail({
           onNotFound?.();
           return;
         }
+        if (readOnly && e.status === 401) {
+          setError("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
+          return;
+        }
         setError(e.message);
       })
       .finally(() => { if (!ignore) setLoading(false); });
     return () => { ignore = true; };
   }, [id, readOnly, etfType, stockType, effRatio]);
+
+  // "시세 기준일: 10/29(목) · 마지막 갱신: 10/30 16:47" 한 줄 — 새 포트폴리오 결과 화면(readOnly가 아닐 때)에서만, 화면 열릴 때 한 번
+  useEffect(() => {
+    if (readOnly) return;
+    let ignore = false;
+    getDataStatus()
+      .then((s) => { if (!ignore) setDataStatus(s); })
+      .catch(() => {
+        // 401(현재 로그인 필요) 등 실패 시엔 에러 없이 이 줄만 조용히 숨김
+        if (!ignore) setDataStatus(null);
+      });
+    return () => { ignore = true; };
+  }, [readOnly]);
 
   // 블렌딩일 때만 쓰는 토글 — ETF / 배당주 둘 중 하나씩 보여줌
   const [activeTab, setActiveTab] = useState("etf"); // "etf" | "stock"
@@ -153,6 +173,33 @@ export default function PortfolioDetail({
             </div>
           )}
 
+          {!readOnly && !loading && !error && dataStatus && dataStatus.latestPriceDate && (
+            <div style={{ marginTop: 14, display: "flex", alignItems: "center", gap: 6, fontSize: 11.5, color: COLORS.textFaint }}>
+              <span>
+                시세 기준일: {formatPriceDate(dataStatus.latestPriceDate)}
+                {dataStatus.lastRefreshedAt ? ` · 마지막 갱신: ${formatRefreshedAt(dataStatus.lastRefreshedAt)}` : ""}
+                {dataStatus.refreshing ? " · 데이터 갱신 중이에요" : ""}
+              </span>
+              <span
+                title="공공 데이터는 영업일 다음 날 오후 1시 이후에 제공돼요. 금요일 종가는 월요일에 반영돼요."
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: "50%",
+                  border: `1px solid ${COLORS.textFaint}`,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 9,
+                  cursor: "help",
+                  flexShrink: 0,
+                }}
+              >
+                i
+              </span>
+            </div>
+          )}
+
           {!readOnly && (
             <>
               <button
@@ -226,7 +273,7 @@ function ToggleBadge({ active, color, label, percent, typeName, onClick }) {
 
 function PortfolioSection({ label, typeName, holdings, avgRate, hideMarketColumns = false }) {
   // 같은 카테고리에 묶인 ETF(지수추종·다우존스배당 등)가 2개 이상이면 한 줄로 합쳐서 표시 — 공용 함수(holdingGrouping.js) 사용
-  const displayHoldings = groupEtfHoldings(holdings);
+  const displayHoldings = groupHoldings(holdings);
 
   // 저장 당시 스냅샷(readOnly)엔 시가총액/거래대금 데이터가 없어서(항상 "-") 그 두 열 자체를 뺌
   const gridCols = hideMarketColumns ? "1fr 80px 70px 65px" : "1fr 80px 85px 85px 70px 65px";
@@ -279,7 +326,7 @@ function PortfolioSection({ label, typeName, holdings, avgRate, hideMarketColumn
           {displayHoldings.map((h, i) => (
             <div key={h.name} style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ width: 8, height: 8, borderRadius: "50%", background: PALETTE[i % PALETTE.length], flexShrink: 0 }} />
-              <span style={{ flex: 1, fontSize: 13, color: COLORS.textMuted }} title={h.merged ? MERGED_HOLDING_NOTE : undefined}>
+              <span style={{ flex: 1, fontSize: 13, color: COLORS.textMuted }} title={h.count >= 2 ? MERGED_HOLDING_NOTE : undefined}>
                 {h.name}
               </span>
               <span style={{ fontSize: 13, fontWeight: 700, color: COLORS.text }}>{h.weight}%</span>
@@ -300,7 +347,7 @@ function PortfolioSection({ label, typeName, holdings, avgRate, hideMarketColumn
         </div>
         {displayHoldings.map((h) => (
           <div key={h.name} style={{ display: "grid", gridTemplateColumns: gridCols, alignItems: "center", padding: "10px 0", borderTop: `1px solid ${COLORS.bg}`, minWidth: gridMinWidth }}>
-            <span style={{ fontSize: 13.5, fontWeight: 700, color: COLORS.text }} title={h.merged ? MERGED_HOLDING_NOTE : undefined}>
+            <span style={{ fontSize: 13.5, fontWeight: 700, color: COLORS.text }} title={h.count >= 2 ? MERGED_HOLDING_NOTE : undefined}>
               {h.name}
             </span>
             <span>

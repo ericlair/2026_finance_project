@@ -3,7 +3,7 @@ import { COLORS, FONT } from "./theme";
 import Navbar from "./Navbar";
 import { TYPE_NAMES } from "./constants";
 import { getSelections, getSelection } from "../api/portfolio";
-import { groupEtfHoldings } from "./holdingGrouping";
+import { groupHoldings } from "./holdingGrouping";
 
 // 리밸런싱 계산기 — 저장 기능 없음(React state만), DB/백엔드 연동 없음
 // 입력 모드 2가지(금액 / 비중):
@@ -33,24 +33,30 @@ function formatDate(createdAt) {
   return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
 }
 
-// ---- 불러온 응답(GET /api/portfolio/selections/{id}) → rows 변환 ----
-// 구간 안 비중(weight)을 전체 기준 비중으로 먼저 환산한 뒤, 공용 함수(holdingGrouping.js)로
-// 같은 카테고리 ETF를 한 줄로 합침(상품명 " / " 연결 포함) — 포트폴리오 상세와 동일한 규칙
+// ---- 불러온 응답(GET /api/portfolio/selections/{id}) → rows 변환 (백엔드 확정 스펙, 2026-10-30) ----
+// 1) ETF/배당주 구간 각각 groupHoldings로 묶고 2) 묶음별 weight(구간 안 비중)에 구간 ratio를 곱해 전체 비중으로 환산(소수 둘째 자리 반올림)
+// 3) 두 구간을 합친 뒤, 반올림 누적으로 합계가 100에서 0.5 이내로 어긋나면 마지막 줄에서 보정
 function buildRowsFromSelection(d) {
-  const scaled = [];
-  const addScaled = (section) => {
-    if (!section) return;
-    for (const h of section.holdings) {
-      scaled.push({ ...h, weight: (h.weight * section.ratio) / 100 });
-    }
+  const scaleSection = (section) => {
+    if (!section) return [];
+    return groupHoldings(section.holdings).map((g) => ({
+      name: g.name,
+      weight: Math.round(((g.weight * section.ratio) / 100) * 100) / 100,
+    }));
   };
-  addScaled(d.etf);
-  addScaled(d.stock);
 
-  return groupEtfHoldings(scaled).map((h) => ({
-    name: h.name,
-    target: Math.round(h.weight * 100) / 100,
-  }));
+  const rows = [...scaleSection(d.etf), ...scaleSection(d.stock)];
+
+  if (rows.length) {
+    const total = Math.round(rows.reduce((sum, r) => sum + r.weight, 0) * 100) / 100;
+    const diff = Math.round((100 - total) * 100) / 100;
+    if (diff !== 0 && Math.abs(diff) <= 0.5) {
+      const last = rows[rows.length - 1];
+      last.weight = Math.round((last.weight + diff) * 100) / 100;
+    }
+  }
+
+  return rows.map((r) => ({ name: r.name, target: r.weight }));
 }
 
 export default function RebalanceCalculator({ userInitial, onBack }) {
@@ -334,6 +340,7 @@ export default function RebalanceCalculator({ userInitial, onBack }) {
             <p style={{ margin: 0 }}>
               {isPercentMode ? "현재 비중 합계와 목표 비중 합계가 각각 100%가 아니면 계산이 왜곡될 수 있어요." : "목표 비중 합계가 100%가 아니면 목표 금액 계산이 왜곡될 수 있어요."}
             </p>
+            {selectedId && <p style={{ margin: 0 }}>목표 비중은 저장 당시 기준이에요.</p>}
             <p style={{ margin: 0 }}>저장 당시 비중을 목표로 한 단순 계산이며 투자 권유가 아닙니다.</p>
             <p style={{ margin: 0 }}>세금·수수료·최소 매매 단위는 반영하지 않았습니다.</p>
             <p style={{ margin: 0 }}>같은 지수를 추종하는 상품(예: KODEX/TIGER S&P500)은 하나만 보유해도 되며, 보유한 상품의 금액을 합쳐서 입력해주세요.</p>

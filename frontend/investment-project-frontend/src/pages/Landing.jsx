@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import { COLORS, FONT } from "./theme";
 import Navbar from "./Navbar";
+import { getDataStatus } from "../api/dataStatus";
+import { formatPriceDate, formatRefreshedAt } from "./dataStatusFormat";
 
 const MENU = [
   {
@@ -71,6 +74,16 @@ const MENU = [
 // userName / investorType — GET /api/auth/me 응답으로 채움 (아직 서버 연동 전이므로 props로 받음)
 // onNavigate(key) — key: "mypage" | "intro" | "survey" | "ratioSetting"
 export default function Landing({ userName = "회원", investorType = null, onNavigate }) {
+  // "시세 기준일 · 마지막 갱신" 한 줄 — 화면 열릴 때 한 번만 조회. 실패(현재는 비로그인 401)하면 조용히 숨김
+  const [dataStatus, setDataStatus] = useState(null);
+  useEffect(() => {
+    let ignore = false;
+    getDataStatus()
+      .then((s) => { if (!ignore) setDataStatus(s); })
+      .catch(() => { if (!ignore) setDataStatus(null); });
+    return () => { ignore = true; };
+  }, []);
+
   const handleMenuClick = (key) => {
     if (key === "makePortfolio") {
       // investorType이 있으면(=이미 진단됨) 바로 비율설정으로, 없으면 설문부터
@@ -137,8 +150,34 @@ export default function Landing({ userName = "회원", investorType = null, onNa
         </div>
       </div>
 
-      <div style={{ padding: "14px 64px", textAlign: "center", borderTop: `1px solid ${COLORS.border}` }}>
+      <div style={{ padding: "14px 64px", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, borderTop: `1px solid ${COLORS.border}` }}>
         <span style={{ fontSize: 11, color: COLORS.textFaint }}>인컴레시피 · 개인프로젝트</span>
+        {dataStatus && dataStatus.latestPriceDate && (
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: COLORS.textFaint }}>
+            <span>
+              시세 기준일: {formatPriceDate(dataStatus.latestPriceDate)}
+              {dataStatus.lastRefreshedAt ? ` · 마지막 갱신: ${formatRefreshedAt(dataStatus.lastRefreshedAt)}` : ""}
+              {dataStatus.refreshing ? " · 데이터 갱신 중이에요" : ""}
+            </span>
+            <span
+              title="공공 데이터는 영업일 다음 날 오후 1시 이후에 제공됩니다. 금요일 종가는 월요일에 반영됩니다. 참고바랍니다."
+              style={{
+                width: 13,
+                height: 13,
+                borderRadius: "50%",
+                border: `1px solid ${COLORS.textFaint}`,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 8.5,
+                cursor: "help",
+                flexShrink: 0,
+              }}
+            >
+              i
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,49 +1,29 @@
-// holdings(kind, category, weight, rate, name)를 받아서, 같은 카테고리에 묶인 ETF가 2개 이상이면 한 줄로 합쳐주는 공용 함수.
-// 포트폴리오 상세(PortfolioDetail, readOnly 조회 포함)와 리밸런싱 계산기(RebalanceCalculator)에서 같이 사용.
-// - kind === "ETF"만 category로 묶음. 2개 이상이면 합침:
-//   · name: " / "로 연결 (예: "KODEX 미국S&P500 / TIGER 미국S&P500") — 개수 가정 없이 몇 개든 동작
-//   · weight: 합계
-//   · rate: 단순평균, 묶인 것 중 하나라도 null이면 null
-// - 카테고리에 1개뿐인 ETF(커버드콜 등)와 배당주(kind !== "ETF")는 그대로 둠
-// - 원래 등장 순서를 유지
-export function groupEtfHoldings(holdings) {
-  const order = [];
-  const groups = new Map();
-
+// 백엔드 확정 스펙(2026-10-30) — 같은 카테고리 ETF를 한 줄로 묶는 공용 함수.
+// 포트폴리오 결과 화면(fetchBlend), 저장 항목 보기(getSelection), 리밸런싱 계산기에서 공통으로 사용.
+// 입력: etf.holdings 또는 stock.holdings ({name, category, kind, weight, rate})
+// - ETF는 category로 묶고(상품 개수 무관), 배당주와 상품이 1개뿐인 카테고리(커버드콜 등)는 그대로(count=1)
+// - 연배당(rate)은 단순평균, 묶인 것 중 하나라도 null이면 null(화면에서 "-")
+export function groupHoldings(holdings) {
+  const map = new Map();
   for (const h of holdings) {
-    if (h.kind !== "ETF") {
-      order.push({ single: h });
-      continue;
-    }
-    const key = `cat:${h.category}`;
-    let g = groups.get(key);
-    if (!g) {
-      g = { items: [] };
-      groups.set(key, g);
-      order.push(g);
-    }
-    g.items.push(h);
+    const key = h.kind === "ETF" ? `ETF:${h.category}` : `STOCK:${h.name}`;
+    const g = map.get(key) ?? { kind: h.kind, category: h.category, names: [], weight: 0, rates: [] };
+    g.names.push(h.name);
+    g.weight += h.weight;
+    g.rates.push(h.rate);
+    map.set(key, g);
   }
-
-  return order.map((entry) => {
-    if (entry.single) return entry.single;
-    const { items } = entry;
-    if (items.length === 1) return items[0];
-
-    const name = items.map((h) => h.name).join(" / ");
-    const weight = Math.round(items.reduce((sum, h) => sum + h.weight, 0) * 100) / 100;
-    const hasNullRate = items.some((h) => h.rate == null);
-    const rate = hasNullRate ? null : Math.round((items.reduce((sum, h) => sum + h.rate, 0) / items.length) * 100) / 100;
-
-    return {
-      name,
-      category: items[0].category,
-      kind: "ETF",
-      weight,
-      rate,
-      merged: true,
-    };
-  });
+  return [...map.values()].map((g) => ({
+    kind: g.kind,
+    category: g.category,
+    name: g.names.join(" / "),
+    count: g.names.length,
+    weight: Math.round(g.weight * 100) / 100,
+    rate: g.rates.some((r) => r == null)
+      ? null
+      : Math.round((g.rates.reduce((a, b) => a + b, 0) / g.rates.length) * 100) / 100,
+  }));
 }
 
+// count가 2 이상인(여러 상품이 한 줄로 묶인) 줄에 붙이는 안내 문구
 export const MERGED_HOLDING_NOTE = "같은 지수를 추종하는 상품이에요. 한 상품에 몰아서 사도, 나눠서 사도 돼요.";
