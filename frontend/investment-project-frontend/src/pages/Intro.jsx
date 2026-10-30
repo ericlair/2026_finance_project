@@ -3,9 +3,9 @@ import { COLORS, FONT } from "./theme";
 import Navbar from "./Navbar";
 
 const TYPES = [
-  { name: "원금집중형", desc: "저·중배당 2~8% · 원금 안정 중시", color: COLORS.primary },
+  { name: "원금집중형", desc: "저·중배당 · 원금 안정 중시", color: COLORS.primary },
   { name: "균형형", desc: "안정성과 수익성의 균형", color: COLORS.secondary },
-  { name: "배당집중형", desc: "고배당 8~15% · 정기 현금흐름 중시", color: "#F59E0B" },
+  { name: "배당집중형", desc: "고배당 · 정기 현금흐름 중시", color: "#F59E0B" },
 ];
 
 const DIVIDEND_REASONS = [
