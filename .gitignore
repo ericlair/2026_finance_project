@@ -1,0 +1,20 @@
+# 비밀 값
+**/src/main/resources/application.properties
+.env
+
+# IDE, 빌드 결과
+.idea/
+*.iml
+out/
+target/
+build/
+.gradle/
+node_modules/
+dist/
+*.log
+HELP.md
+
+# 제3자 문서, 수동 조사 데이터, 작업 파일 (공개 저장소에 올리지 않음)
+API/
+DB/
+bin/
