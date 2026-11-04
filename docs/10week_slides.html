@@ -432,7 +432,7 @@ dl dd{font-size:17px;color:#475569;margin-top:3px}
 <li>반올림으로 합계가 100에서 조금 어긋나면 마지막 줄에서 보정, 합계 경고는 ±0.05 허용</li>
 <li>고지: 저장 당시 비중 기준 단순 계산 · 세금 · 수수료 · 최소 매매 단위 미반영 · 투자 권유 아님</li></ul></div></div></section><section><h2><span class="sec db">DB</span>갱신 기록과 Docker 초기화</h2><div class="g3">
 <div class="cd gr"><div class="ct">테이블 추가</div><h3>data_refresh_log</h3><p>자동 갱신이 언제 돌았고 결과가 어땠는지 기록 → 전체 7개 테이블. 화면의 "마지막 갱신 시각"이 이 기록에서 나옴</p></div>
-<div class="cd gr"><div class="ct">자동 초기화</div><h3>처음 실행하면 바로 준비</h3><p>Docker로 DB를 처음 만들 때 테이블 7개와 종목 43개가 자동으로 들어감 → 이후 서버가 시세를 따라잡아 채움</p></div>
+<div class="cd gr"><div class="ct">첫 실행 시 자동 세팅</div><h3>처음 실행하면 바로 준비</h3><p>Docker로 DB를 처음 만들 때 테이블 7개와 종목 43개가 자동으로 들어감 → 이후 서버가 시세를 따라잡아 채움 (이후 실행에는 데이터 유지)</p></div>
 <div class="cd gr"><div class="ct">수동 조사 데이터</div><h3>ETF 분배금</h3><p>SEIBro 수동 조사 자료라 저장소에 넣지 않고 제출 자료로 따로 제공</p></div></div>
 <div class="ln">시세 데이터는 저장소에 올리지 않고, <b>실행하면 공공데이터에서 직접 받아 채우는 구조</b></div></section><section><h2><span class="sec be">백엔드</span>실데이터 자동 갱신</h2>
 <div class="stp"><div class="sb s"><small>1</small><b>배당주 종가</b></div><i>→</i><div class="sb s"><small>2</small><b>배당주 배당률</b></div><i>→</i><div class="sb e"><small>3</small><b>ETF 종가</b></div><i>→</i><div class="sb e"><small>4</small><b>ETF 분배율</b></div></div>
@@ -452,7 +452,7 @@ dl dd{font-size:17px;color:#475569;margin-top:3px}
 <div class="pr2"><div class="bx3"><div class="h">겪은 문제와 해결</div><ul>
 <li><b>문제</b> 한글 종목명이 깨져 시세 조회 전부 실패 → SQL에 인코딩 지정</li>
 <li><b>문제</b> 공공 API 응답이 느려 일부 종목 실패 → 대기 30초 + 재시도 3번</li></ul></div>
-<div class="bx3 ok"><div class="h">현재 상태</div><p>로컬 Docker 실행(화면 포함)과 자동 갱신 확인 완료</p><p style="font-size:13.5px;color:#166534;margin-top:6px">시연: <code>docker compose up</code> → 브라우저 <code>localhost:5173</code></p></div></div></section><section><h2>겪은 문제와 해결</h2>
+<div class="bx3 ok"><div class="h">현재 상태</div><p>로컬 Docker 실행(화면 포함), 구글 로그인, 자동 갱신 확인 완료</p><p style="font-size:13.5px;color:#166534;margin-top:6px">시연: <code>docker compose up</code> → 브라우저 <code>localhost:5173</code></p></div></div></section><section><h2>겪은 문제와 해결</h2>
 <table class="trb"><tr><th style="width:9%">구분</th><th style="width:33%">문제</th><th style="width:28%">원인</th><th>해결</th></tr>
 <tr><td><span class="tg2 db">DB</span></td><td>Docker DB에서 시세 조회가 전부 실패</td><td>한글 종목명이 깨진 채 입력됨</td><td>초기화 SQL에 문자 인코딩 지정</td></tr>
 <tr><td><span class="tg2 db">DB</span></td><td>서버가 시작되지 않음</td><td>초기화 SQL이 DB에 들어가지 않음</td><td>SQL 파일 위치 수정</td></tr>
@@ -460,7 +460,7 @@ dl dd{font-size:17px;color:#475569;margin-top:3px}
 <tr><td><span class="tg2 be">백엔드</span></td><td>배당주 종가 갱신이 가끔 실패</td><td>공공데이터 응답이 느려 시간 초과</td><td>대기 시간 30초 + 최대 3번 재시도</td></tr></table></section><section><h2>다음 주 할 일</h2>
 <div class="nxt" style="grid-template-columns:1fr">
 <div class="pt ui"><div class="pk">마무리</div><ul style="display:grid;grid-template-columns:1fr 1fr;column-gap:28px">
-<li>Docker 환경에서 구글 로그인 확인</li><li>갱신된 ETF 분배금 데이터 입력</li>
+<li>ETF 분배금이 갱신되지 않았을 때 이전 값을 유지하도록 수정</li><li>갱신된 ETF 분배금 데이터 입력</li>
 <li>직전 저장 대비 비교 — 배당률 · 비중 변화</li><li>UI 정리 — 종목 · 서비스 소개 화면</li></ul></div></div>
 <div class="dec"><div class="dh">그다음은 고민 중 — 둘 중 하나</div><div class="opt">
 <div class="o"><div class="ok2" style="color:#b45309">서버 운영 연습</div><h3>인컴레시피를 더 운영해 보기</h3><p>로컬 쿠버네티스로 옮겨 보기, 재시작 · 로그 · 백업 연습</p></div>
