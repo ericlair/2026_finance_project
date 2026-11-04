@@ -458,9 +458,10 @@ dl dd{font-size:17px;color:#475569;margin-top:3px}
 <tr><td><span class="tg2 db">DB</span></td><td>서버가 시작되지 않음</td><td>초기화 SQL이 DB에 들어가지 않음</td><td>SQL 파일 위치 수정</td></tr>
 
 <tr><td><span class="tg2 be">백엔드</span></td><td>배당주 종가 갱신이 가끔 실패</td><td>공공데이터 응답이 느려 시간 초과</td><td>대기 시간 30초 + 최대 3번 재시도</td></tr></table></section><section><h2>다음 주 할 일</h2>
-<div class="nxt">
-<div class="pt ui"><div class="pk">마무리</div><ul><li>Docker 환경에서 구글 로그인 확인</li><li>갱신된 ETF 분배금 데이터 입력</li></ul></div>
-<div class="pt db"><div class="pk">기능</div><ul><li>직전 저장 대비 비교 — 배당률 · 비중 변화</li></ul></div></div>
+<div class="nxt" style="grid-template-columns:1fr">
+<div class="pt ui"><div class="pk">마무리</div><ul style="display:grid;grid-template-columns:1fr 1fr;column-gap:28px">
+<li>Docker 환경에서 구글 로그인 확인</li><li>갱신된 ETF 분배금 데이터 입력</li>
+<li>직전 저장 대비 비교 — 배당률 · 비중 변화</li><li>UI 정리 — 종목 · 서비스 소개 화면</li></ul></div></div>
 <div class="dec"><div class="dh">그다음은 고민 중 — 둘 중 하나</div><div class="opt">
 <div class="o"><div class="ok2" style="color:#b45309">서버 운영 연습</div><h3>인컴레시피를 더 운영해 보기</h3><p>로컬 쿠버네티스로 옮겨 보기, 재시작 · 로그 · 백업 연습</p></div>
 <div class="or">또는</div>
