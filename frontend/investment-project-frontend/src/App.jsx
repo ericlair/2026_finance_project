@@ -245,38 +245,40 @@ function App() {
   return (
     <div>
       {/* 개발 중에만 보이는 페이지 전환 바 — 나중에 라우팅 붙이면 통째로 지우면 됨 */}
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 999,
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 6,
-          padding: 8,
-          background: "#111",
-        }}
-      >
-        {PAGE_KEYS.map(({ key, label }) => (
-          <button
-            key={key}
-            onClick={() => setCurrent(key)}
-            style={{
-              fontSize: 12,
-              padding: "6px 10px",
-              borderRadius: 6,
-              border: "none",
-              cursor: "pointer",
-              background: current === key ? "#2563EB" : "#333",
-              color: "#fff",
-            }}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+      {import.meta.env.DEV && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 999,
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 6,
+            padding: 8,
+            background: "#111",
+          }}
+        >
+          {PAGE_KEYS.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => setCurrent(key)}
+              style={{
+                fontSize: 12,
+                padding: "6px 10px",
+                borderRadius: 6,
+                border: "none",
+                cursor: "pointer",
+                background: current === key ? "#2563EB" : "#333",
+                color: "#fff",
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
 
       <div style={{ paddingTop: 44 }}>{PAGES[current]}</div>
     </div>
