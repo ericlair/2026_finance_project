@@ -1,8 +1,10 @@
 import { COLORS } from "./theme";
 
-// variant: "public" (로그인/소개 버튼) | "auth" (포트폴리오/마이페이지 탭 + 아바타)
-// activeTab: "portfolio" | "mypage" (variant="auth"일 때만 사용)
-export default function Navbar({ variant = "public", activeTab, userInitial = "김" }) {
+// variant: "public" (로그인/소개 버튼) | "auth" (마이페이지 + 아바타)
+// onMyPage — variant="auth"에서 마이페이지/아바타 클릭 시 호출
+// onLogout — 넘겨줄 때만 로그아웃 링크가 보임(랜딩 화면에서만 씀)
+// onLogin — variant="public"일 때 로그인 버튼
+export default function Navbar({ variant = "public", userInitial = "김", onMyPage, onLogout, onLogin }) {
   return (
     <div
       style={{
@@ -39,6 +41,7 @@ export default function Navbar({ variant = "public", activeTab, userInitial = "�
         <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
           <span style={{ fontSize: 14, color: COLORS.textMuted }}>서비스 소개</span>
           <button
+            onClick={onLogin}
             style={{
               fontSize: 14,
               fontWeight: 700,
@@ -72,24 +75,21 @@ export default function Navbar({ variant = "public", activeTab, userInitial = "�
       {variant === "auth" && (
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
           <span
-            style={{
-              fontSize: 14,
-              fontWeight: 700,
-              color: activeTab === "portfolio" ? COLORS.primary : COLORS.textMuted,
-            }}
-          >
-            포트폴리오
-          </span>
-          <span
-            style={{
-              fontSize: 14,
-              fontWeight: 700,
-              color: activeTab === "mypage" ? COLORS.primary : COLORS.textMuted,
-            }}
+            onClick={onMyPage}
+            style={{ fontSize: 14, fontWeight: 700, color: COLORS.textMuted, cursor: "pointer" }}
           >
             마이페이지
           </span>
+          {onLogout && (
+            <span
+              onClick={onLogout}
+              style={{ fontSize: 13, color: COLORS.textFaint, cursor: "pointer" }}
+            >
+              로그아웃
+            </span>
+          )}
           <div
+            onClick={onMyPage}
             style={{
               width: 34,
               height: 34,
@@ -101,6 +101,7 @@ export default function Navbar({ variant = "public", activeTab, userInitial = "�
               fontSize: 13,
               fontWeight: 700,
               color: COLORS.primary,
+              cursor: "pointer",
             }}
           >
             {userInitial}

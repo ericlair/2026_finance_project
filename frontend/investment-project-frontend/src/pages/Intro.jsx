@@ -3,9 +3,9 @@ import { COLORS, FONT } from "./theme";
 import Navbar from "./Navbar";
 
 const TYPES = [
-  { name: "원금집중형", desc: "저·중배당 · 원금 안정 중시", color: COLORS.primary },
+  { name: "원금집중형", desc: "저·중배당 2~8% · 원금 안정 중시", color: COLORS.primary },
   { name: "균형형", desc: "안정성과 수익성의 균형", color: COLORS.secondary },
-  { name: "배당집중형", desc: "고배당 · 정기 현금흐름 중시", color: "#F59E0B" },
+  { name: "배당집중형", desc: "고배당 8~15% · 정기 현금흐름 중시", color: "#F59E0B" },
 ];
 
 const DIVIDEND_REASONS = [
@@ -46,17 +46,21 @@ const PORTFOLIO_KINDS = [
   },
 ];
 
-export default function Intro() {
+export default function Intro({ onBack }) {
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: FONT, background: COLORS.bg }}>
       <Navbar variant="public" />
 
       <div style={{ padding: "44px 64px" }}>
         <div style={{ maxWidth: 1040, margin: "0 auto" }}>
-          <h1 style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.4, color: COLORS.text, margin: 0 }}>
+          <span onClick={() => onBack?.()} style={{ fontSize: 13, color: COLORS.textFaint, cursor: "pointer" }}>
+            ← 돌아가기
+          </span>
+
+          <h1 style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.4, color: COLORS.text, margin: "12px 0 0 0" }}>
             내 투자성향에 맞는 배당 포트폴리오 추천
           </h1>
-          <p style={{ marginTop: 12, fontSize: 16, lineHeight: 1.7, color: COLORS.textMuted, maxWidth: 1100}}>
+          <p style={{ marginTop: 12, fontSize: 16, lineHeight: 1.7, color: COLORS.textMuted, maxWidth: 600 }}>
             간단한 설문으로 투자성향을 진단하고, 배당주·ETF로 구성된 맞춤 포트폴리오를 확인해 보세요.
           </p>
 

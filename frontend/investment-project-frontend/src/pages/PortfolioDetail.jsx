@@ -38,6 +38,7 @@ export default function PortfolioDetail({
   onConfirm, // "이 포트폴리오로 선택하기" 클릭 시 { mode, etfRatio, etfType, stockType } 전달
   onBack, // 뒤로가기(readOnly=마이페이지로, 아니면 비율설정으로)
   onNotFound, // readOnly 조회 중 404(삭제됐거나 남의 id) — 마이페이지로 돌려보내서 목록을 새로 불러오게 함
+  onMyPage, // 상단 네비게이션 "마이페이지" 클릭
 }) {
   // 모드에 따라 실제 ETF 비중 (stockOnly=0, etfOnly=100)
   const effRatio = mode === "etfOnly" ? 100 : mode === "stockOnly" ? 0 : etfRatio;
@@ -58,14 +59,14 @@ export default function PortfolioDetail({
     // readOnly(마이페이지 이력에서 조회)면 저장 당시 값을, 아니면 현재 시세로 계산된 값을 불러옴
     const request = readOnly && id != null
       ? getSelection(id).then((d) => {
-          setSavedAt(d.createdAt);
-          return { etf: d.etf, stock: d.stock };
-        })
+        setSavedAt(d.createdAt);
+        return { etf: d.etf, stock: d.stock };
+      })
       : fetchBlend({
-          etfType: effRatio > 0 ? etfType : undefined,
-          stockType: effRatio < 100 ? stockType : undefined,
-          etfRatio: effRatio,
-        });
+        etfType: effRatio > 0 ? etfType : undefined,
+        stockType: effRatio < 100 ? stockType : undefined,
+        etfRatio: effRatio,
+      });
 
     request
       .then((d) => { if (!ignore) setData(d); })
@@ -106,7 +107,7 @@ export default function PortfolioDetail({
 
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: FONT, background: COLORS.bg }}>
-      <Navbar variant="auth" activeTab="portfolio" userInitial={userInitial} />
+      <Navbar variant="auth" userInitial={userInitial} onMyPage={onMyPage} />
 
       <div style={{ padding: "32px 64px 60px 64px" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
@@ -114,9 +115,6 @@ export default function PortfolioDetail({
             <span onClick={() => onBack?.()} style={{ fontSize: 13, color: COLORS.textFaint, cursor: "pointer" }}>
               {readOnly ? "← 마이페이지로 돌아가기" : "← 비율설정으로 돌아가기"}
             </span>
-            {!readOnly && (
-              <span style={{ fontSize: 13, color: COLORS.textFaint, cursor: "pointer" }}>비율 다시 설정하기</span>
-            )}
           </div>
 
           {/* 저장 당시 값이라 현재 시세와 다를 수 있음을 알림 */}
@@ -158,7 +156,6 @@ export default function PortfolioDetail({
                   typeName={TYPE_NAMES[etfType]}
                   holdings={data.etf.holdings}
                   avgRate={data.etf.avgRate}
-                  hideMarketColumns={readOnly}
                 />
               )}
               {showStock && data.stock && (
@@ -167,7 +164,6 @@ export default function PortfolioDetail({
                   typeName={TYPE_NAMES[stockType]}
                   holdings={data.stock.holdings}
                   avgRate={data.stock.avgRate}
-                  hideMarketColumns={readOnly}
                 />
               )}
             </div>
@@ -271,7 +267,8 @@ function ToggleBadge({ active, color, label, percent, typeName, onClick }) {
   );
 }
 
-function PortfolioSection({ label, typeName, holdings, avgRate, hideMarketColumns = false }) {
+// 시가총액·거래대금은 백엔드가 값을 채워주는지 확정되지 않아 일단 새 결과 화면·저장 항목 조회 둘 다 숨김(hideMarketColumns 항상 true)
+function PortfolioSection({ label, typeName, holdings, avgRate, hideMarketColumns = true }) {
   // 같은 카테고리에 묶인 ETF(지수추종·다우존스배당 등)가 2개 이상이면 한 줄로 합쳐서 표시 — 공용 함수(holdingGrouping.js) 사용
   const displayHoldings = groupHoldings(holdings);
 

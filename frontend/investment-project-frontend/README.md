@@ -1,16 +1,35 @@
-# React + Vite
+# 인컴레시피 (IncomeRecipe)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+투자성향을 진단해서 배당주·ETF로 구성된 맞춤 포트폴리오를 추천해주는 개인프로젝트 웹서비스입니다.
 
-Currently, two official plugins are available:
+## 주요 기능
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **투자성향 진단 설문**: 간단한 문항으로 원금집중형 / 균형형 / 배당집중형 중 하나를 판정
+- **맞춤 포트폴리오 추천**: 진단 결과를 바탕으로 ETF·배당주를 투자성향에 맞는 비중으로 구성
+- **구글 로그인**: 소셜 로그인만 지원(이메일/비밀번호 가입 없음), 최초 로그인 시 서버가 자동으로 계정 생성
+- **마이페이지**: 진단·추천 이력 조회, 재검사, 계정 관리
+- **복리 계산기**: 적립식 투자 시 배당 재투자 여부·지급 주기(월/분기/년)에 따른 자산 변화 시뮬레이션
+- **리밸런싱 계산기**: 저장한 포트폴리오를 불러오거나 직접 입력해서, 목표 비중에 맞추기 위한 매수/매도 금액 계산
+- **시세 데이터 기준일 표시**: 공공데이터 반영 시점(시세 기준일·마지막 갱신)을 화면에 안내
 
-## React Compiler
+## 기술 스택
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **프론트엔드**: React (Vite), 순수 inline style (CSS 프레임워크 없음)
+- **인증**: Google 소셜 로그인
+- **데이터 출처**: 금융위원회 주식시세정보·증권상품시세정보·주식배당정보 (공공데이터포털)
 
-## Expanding the ESLint configuration
+## 실행 방법
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm ci
+npm run dev
+```
+
+`/api`, `/oauth2` 요청은 백엔드 서버로 연결되므로, 백엔드가 먼저 떠 있어야 로그인·데이터 조회가 정상 동작합니다.
+
+## 유의사항
+
+- 학습용 프로젝트로 만든 서비스이며, 투자 권유가 아닙니다. 투자 판단과 책임은 본인에게 있습니다.
+- 미리 선별한 배당주·ETF 안에서만 추천합니다.
+- 시세·배당 데이터는 실시간이 아니며, 영업일 다음 날 오후 1시 이후에 반영됩니다. (금요일 종가는 월요일에 반영)
+- ETF 분배금은 SEIBro 공시값(세전)을 직접 조사해 입력한 값입니다.

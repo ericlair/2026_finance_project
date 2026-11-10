@@ -71,9 +71,10 @@ const MENU = [
   },
 ];
 
-// userName / investorType — GET /api/auth/me 응답으로 채움 (아직 서버 연동 전이므로 props로 받음)
+// userName / investorType — GET /api/auth/me 응답으로 채움
+// isLoggedIn — 로그인 여부 (true면 Navbar가 "auth" variant: 마이페이지·로그아웃·아바타, false면 로그인/회원가입 버튼)
 // onNavigate(key) — key: "mypage" | "intro" | "survey" | "ratioSetting"
-export default function Landing({ userName = "회원", investorType = null, onNavigate }) {
+export default function Landing({ userName = "회원", investorType = null, isLoggedIn = false, userInitial, onNavigate, onLogin, onLogout }) {
   // "시세 기준일 · 마지막 갱신" 한 줄 — 화면 열릴 때 한 번만 조회. 실패(현재는 비로그인 401)하면 조용히 숨김
   const [dataStatus, setDataStatus] = useState(null);
   useEffect(() => {
@@ -99,7 +100,13 @@ export default function Landing({ userName = "회원", investorType = null, onNa
 
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: FONT, background: COLORS.bg }}>
-      <Navbar variant="public" />
+      <Navbar
+        variant={isLoggedIn ? "auth" : "public"}
+        userInitial={userInitial}
+        onMyPage={() => onNavigate?.("mypage")}
+        onLogout={onLogout}
+        onLogin={onLogin}
+      />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 36, padding: "20px 64px" }}>
         <div style={{ textAlign: "center" }}>
@@ -160,7 +167,7 @@ export default function Landing({ userName = "회원", investorType = null, onNa
               {dataStatus.refreshing ? " · 데이터 갱신 중이에요" : ""}
             </span>
             <span
-              title="공공 데이터는 영업일 다음 날 오후 1시 이후에 제공됩니다. 금요일 종가는 월요일에 반영됩니다. 참고바랍니다."
+              title="공공 데이터는 영업일 다음 날 오후 1시 이후에 제공돼요. 금요일 종가는 월요일에 반영돼요."
               style={{
                 width: 13,
                 height: 13,

@@ -57,6 +57,9 @@ function App() {
           setUser({ name: me.name, email: me.email });
           setInvestorType(me.investorType ?? null);
           setPreferredEngine(me.preferredEngine ?? null);
+          // 구글 로그인 후 서버가 5173으로 돌려보내면 앱이 처음부터 다시 로드되는데,
+          // 이때 current는 "login"으로 초기화돼 있음 — 로그인 확인되면 로그인 화면에서는 바로 랜딩으로 넘김
+          setCurrent((prev) => (prev === "login" ? "landing" : prev));
         } else {
           // 401 — 로그인 안 된 상태. user/investorType/preferredEngine 모두 비워둠
           setUser(null);
@@ -180,8 +183,18 @@ function App() {
   const PAGES = {
     prologue: <Prologue onFinish={handlePrologueFinish} />,
     login: <Login />,
-    landing: <Landing userName={user?.name ?? "회원"} investorType={investorType} onNavigate={handleLandingNavigate} />,
-    intro: <Intro />,
+    landing: (
+      <Landing
+        userName={user?.name ?? "회원"}
+        investorType={investorType}
+        isLoggedIn={!!user}
+        userInitial={user?.name?.[0]}
+        onNavigate={handleLandingNavigate}
+        onLogin={() => setCurrent("login")}
+        onLogout={handleLogout}
+      />
+    ),
+    intro: <Intro onBack={() => setCurrent("landing")} />,
     survey: <Survey onFinish={handleSurveyComplete} onCancel={handleSurveyCancel} />,
     surveyResult: (
       <SurveyResult
@@ -189,6 +202,7 @@ function App() {
         engine={surveyResult?.engine}
         onNext={handleSurveyNext}
         onRetry={handleRetake}
+        onMyPage={() => setCurrent("myPage")}
       />
     ),
     ratioSetting: (
@@ -202,6 +216,8 @@ function App() {
         recommendedStockType={preferredEngine === "STOCK" ? investorType : undefined}
         userInitial={user?.name?.[0]}
         onConfirm={handleRatioConfirm}
+        onMyPage={() => setCurrent("myPage")}
+        onBack={() => setCurrent("landing")}
       />
     ),
     portfolioDetail: (
@@ -214,6 +230,7 @@ function App() {
           setSaveError(null);
           setCurrent("ratioSetting");
         }}
+        onMyPage={() => setCurrent("myPage")}
       />
     ),
     portfolioDetailSaved: (
@@ -223,6 +240,7 @@ function App() {
         userInitial={user?.name?.[0]}
         onBack={() => setCurrent("myPage")}
         onNotFound={() => setCurrent("myPage")}
+        onMyPage={() => setCurrent("myPage")}
       />
     ),
     myPage: (
@@ -236,15 +254,28 @@ function App() {
         onLogin={() => setCurrent("login")}
         onLogout={handleLogout}
         onDeleteAccount={handleDeleteAccount}
+        onBack={() => setCurrent("landing")}
       />
     ),
-    compoundCalc: <CompoundCalculator userInitial={user?.name?.[0]} onBack={() => setCurrent("landing")} />,
-    rebalanceCalc: <RebalanceCalculator userInitial={user?.name?.[0]} onBack={() => setCurrent("landing")} />,
+    compoundCalc: (
+      <CompoundCalculator
+        userInitial={user?.name?.[0]}
+        onBack={() => setCurrent("landing")}
+        onMyPage={() => setCurrent("myPage")}
+      />
+    ),
+    rebalanceCalc: (
+      <RebalanceCalculator
+        userInitial={user?.name?.[0]}
+        onBack={() => setCurrent("landing")}
+        onMyPage={() => setCurrent("myPage")}
+      />
+    ),
   };
 
   return (
     <div>
-      {/* 개발 중에만 보이는 페이지 전환 바 — 나중에 라우팅 붙이면 통째로 지우면 됨 */}
+      {/* 개발 중에만 보이는 페이지 전환 바 — 프로덕션 빌드(npm run build, 도커 포함)에는 자동으로 안 뜸 */}
       {import.meta.env.DEV && (
         <div
           style={{

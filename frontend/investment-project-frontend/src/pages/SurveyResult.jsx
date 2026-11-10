@@ -24,14 +24,14 @@ const ENGINE_DESC = {
 
 // type: "PRINCIPAL" | "BALANCED" | "DIVIDEND", engine: "ETF" | "STOCK"  (설문 판정 결과)
 // onNext({ type, engine }) — "포트폴리오 만들기", onRetry() — "다시 검사하기"
-export default function SurveyResult({ type = "BALANCED", engine = "ETF", onNext, onRetry }) {
+export default function SurveyResult({ type = "BALANCED", engine = "ETF", onNext, onRetry, onMyPage }) {
   const { stability, profitability } = TYPE_RATIO[type];
   const resultTitle = `${ENGINE_LABEL[engine]} ${TYPE_NAMES[type]}`;
   const accent = ENGINE_ACCENT[engine];
 
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: FONT, background: COLORS.bg }}>
-      <Navbar variant="auth" activeTab="portfolio" />
+      <Navbar variant="auth" onMyPage={onMyPage} />
 
       <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{ width: "100%", maxWidth: 480, textAlign: "center" }}>

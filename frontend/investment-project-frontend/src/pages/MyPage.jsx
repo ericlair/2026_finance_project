@@ -33,7 +33,7 @@ const ENGINE_COLOR = { ETF: COLORS.primary, STOCK: COLORS.secondary };
 // investorType — GET /api/auth/me 응답값(서버에 저장된 투자성향, 사용자당 1건). null이면 아직 설문 전.
 // engine — "ETF" | "STOCK". 서버엔 저장 안 되는 값이라 이번 세션에 설문을 본 경우(surveyResult.engine)에만 전달됨 — 없으면 undefined
 // onView(item) — 이력 한 줄 클릭 시 호출, PortfolioDetail(readOnly)로 조회 이동
-export default function MyPage({ user = null, investorType = null, engine, onRetake, onResetType, onView, onLogin, onLogout, onDeleteAccount }) {
+export default function MyPage({ user = null, investorType = null, engine, onRetake, onResetType, onView, onLogin, onLogout, onDeleteAccount, onBack }) {
   const [portfolioHistory, setPortfolioHistory] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
@@ -98,11 +98,15 @@ export default function MyPage({ user = null, investorType = null, engine, onRet
 
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: FONT, background: COLORS.bg }}>
-      <Navbar variant="auth" activeTab="mypage" userInitial={user?.name?.[0]} />
+      <Navbar variant="auth" userInitial={user?.name?.[0]} />
 
       <div style={{ flex: 1, display: "flex", justifyContent: "center", padding: "44px 64px" }}>
         <div style={{ width: "100%", maxWidth: 760 }}>
-          <h2 style={{ fontSize: 22, fontWeight: 700, color: COLORS.text, marginBottom: 20 }}>마이페이지</h2>
+          <span onClick={() => onBack?.()} style={{ fontSize: 13, color: COLORS.textFaint, cursor: "pointer" }}>
+            ← 돌아가기
+          </span>
+
+          <h2 style={{ fontSize: 22, fontWeight: 700, color: COLORS.text, margin: "12px 0 20px 0" }}>마이페이지</h2>
 
           <div
             style={{

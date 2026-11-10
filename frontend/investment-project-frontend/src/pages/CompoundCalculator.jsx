@@ -46,7 +46,7 @@ function formatKRW(n) {
   return `${Math.round(n).toLocaleString()}원`;
 }
 
-export default function CompoundCalculator({ userInitial, onBack }) {
+export default function CompoundCalculator({ userInitial, onBack, onMyPage }) {
   const [initial, setInitial] = useState(1000000); // 시작 금액
   const [monthly, setMonthly] = useState(200000); // 월 적립액
   const [years, setYears] = useState(10); // 투자 기간(년)
@@ -65,7 +65,7 @@ export default function CompoundCalculator({ userInitial, onBack }) {
 
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: FONT, background: COLORS.bg }}>
-      <Navbar variant="auth" activeTab="portfolio" userInitial={userInitial} />
+      <Navbar variant="auth" userInitial={userInitial} onMyPage={onMyPage} />
 
       <div style={{ flex: 1, display: "flex", justifyContent: "center", padding: "36px 64px 60px 64px" }}>
         <div style={{ width: "100%", maxWidth: 640 }}>

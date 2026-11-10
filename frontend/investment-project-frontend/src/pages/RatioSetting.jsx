@@ -28,6 +28,8 @@ export default function RatioSetting({
   recommendedStockType,
   userInitial,
   onConfirm,
+  onMyPage,
+  onBack,
 }) {
   // 비중 슬라이더 쪽 안내 문구용 — recommendedEtfType/StockType 중 채워진 쪽으로 추천 운용방식을 역추론
   const recommendedEngine = recommendedEtfType ? "ETF" : recommendedStockType ? "STOCK" : undefined;
@@ -61,11 +63,15 @@ export default function RatioSetting({
 
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: FONT, background: COLORS.bg }}>
-      <Navbar variant="auth" activeTab="portfolio" userInitial={userInitial} />
+      <Navbar variant="auth" userInitial={userInitial} onMyPage={onMyPage} />
 
       <div style={{ flex: 1, display: "flex", justifyContent: "center", padding: "36px 64px 60px 64px" }}>
         <div style={{ width: "100%", maxWidth: 520 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: COLORS.text, margin: 0 }}>비율 설정</h2>
+          <span onClick={() => onBack?.()} style={{ fontSize: 13, color: COLORS.textFaint, cursor: "pointer" }}>
+            ← 돌아가기
+          </span>
+
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: COLORS.text, margin: "12px 0 0 0" }}>비율 설정</h2>
           <p style={{ marginTop: 8, fontSize: 13, color: COLORS.textFaint }}>
             어떻게 운용할지 먼저 선택하고, 비중과 유형을 정하세요.
           </p>

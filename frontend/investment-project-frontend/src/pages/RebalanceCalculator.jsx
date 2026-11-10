@@ -59,7 +59,7 @@ function buildRowsFromSelection(d) {
   return rows.map((r) => ({ name: r.name, target: r.weight }));
 }
 
-export default function RebalanceCalculator({ userInitial, onBack }) {
+export default function RebalanceCalculator({ userInitial, onBack, onMyPage }) {
   const [inputMode, setInputMode] = useState("amount"); // "amount" | "percent"
   const [totalAsset, setTotalAsset] = useState(2000000); // 비중 모드에서만 사용하는 총자산
   const [rows, setRows] = useState(() => [
@@ -151,7 +151,7 @@ export default function RebalanceCalculator({ userInitial, onBack }) {
 
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: FONT, background: COLORS.bg }}>
-      <Navbar variant="auth" activeTab="portfolio" userInitial={userInitial} />
+      <Navbar variant="auth" userInitial={userInitial} onMyPage={onMyPage} />
 
       <div style={{ flex: 1, display: "flex", justifyContent: "center", padding: "36px 64px 60px 64px" }}>
         <div style={{ width: "100%", maxWidth: 680 }}>
