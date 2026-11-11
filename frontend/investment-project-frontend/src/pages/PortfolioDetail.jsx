@@ -39,6 +39,7 @@ export default function PortfolioDetail({
   onBack, // 뒤로가기(readOnly=마이페이지로, 아니면 비율설정으로)
   onNotFound, // readOnly 조회 중 404(삭제됐거나 남의 id) — 마이페이지로 돌려보내서 목록을 새로 불러오게 함
   onMyPage, // 상단 네비게이션 "마이페이지" 클릭
+  onLogin, // 비로그인 401일 때 "로그인하기" 버튼 클릭
 }) {
   // 모드에 따라 실제 ETF 비중 (stockOnly=0, etfOnly=100)
   const effRatio = mode === "etfOnly" ? 100 : mode === "stockOnly" ? 0 : etfRatio;
@@ -48,6 +49,7 @@ export default function PortfolioDetail({
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [needsLogin, setNeedsLogin] = useState(false); // 401 — readOnly 조회든(저장 항목 보기) 새 결과 화면(fetchBlend)이든 둘 다 해당
   const [savedAt, setSavedAt] = useState(null); // readOnly일 때 저장 당시(createdAt) 표시용
   const [dataStatus, setDataStatus] = useState(null); // 새 포트폴리오 결과 화면에만 쓰는 "시세 기준일" 한 줄 — readOnly/리밸런싱엔 안 씀
 
@@ -55,18 +57,19 @@ export default function PortfolioDetail({
     let ignore = false;
     setLoading(true);
     setError(null);
+    setNeedsLogin(false);
 
     // readOnly(마이페이지 이력에서 조회)면 저장 당시 값을, 아니면 현재 시세로 계산된 값을 불러옴
     const request = readOnly && id != null
       ? getSelection(id).then((d) => {
-        setSavedAt(d.createdAt);
-        return { etf: d.etf, stock: d.stock };
-      })
+          setSavedAt(d.createdAt);
+          return { etf: d.etf, stock: d.stock };
+        })
       : fetchBlend({
-        etfType: effRatio > 0 ? etfType : undefined,
-        stockType: effRatio < 100 ? stockType : undefined,
-        etfRatio: effRatio,
-      });
+          etfType: effRatio > 0 ? etfType : undefined,
+          stockType: effRatio < 100 ? stockType : undefined,
+          etfRatio: effRatio,
+        });
 
     request
       .then((d) => { if (!ignore) setData(d); })
@@ -76,8 +79,10 @@ export default function PortfolioDetail({
           onNotFound?.();
           return;
         }
-        if (readOnly && e.status === 401) {
+        // readOnly(저장 항목 조회)·새 결과 화면(fetchBlend) 둘 다 비로그인이면 401 — 로그인 버튼으로 안내
+        if (e.status === 401) {
           setError("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
+          setNeedsLogin(true);
           return;
         }
         setError(e.message);
@@ -115,6 +120,9 @@ export default function PortfolioDetail({
             <span onClick={() => onBack?.()} style={{ fontSize: 13, color: COLORS.textFaint, cursor: "pointer" }}>
               {readOnly ? "← 마이페이지로 돌아가기" : "← 비율설정으로 돌아가기"}
             </span>
+            {!readOnly && (
+              <span style={{ fontSize: 13, color: COLORS.textFaint, cursor: "pointer" }}>비율 다시 설정하기</span>
+            )}
           </div>
 
           {/* 저장 당시 값이라 현재 시세와 다를 수 있음을 알림 */}
@@ -146,7 +154,31 @@ export default function PortfolioDetail({
           )}
 
           {loading && <p style={{ fontSize: 13, color: COLORS.textFaint }}>불러오는 중…</p>}
-          {error && <p style={{ fontSize: 13, color: "#DC2626" }}>포트폴리오를 불러오지 못했습니다: {error}</p>}
+          {error && (
+            <div>
+              <p style={{ fontSize: 13, color: "#DC2626" }}>
+                {needsLogin ? error : `포트폴리오를 불러오지 못했습니다: ${error}`}
+              </p>
+              {needsLogin && (
+                <button
+                  onClick={() => onLogin?.()}
+                  style={{
+                    marginTop: 8,
+                    padding: "10px 20px",
+                    borderRadius: 10,
+                    background: COLORS.primary,
+                    color: "#FFFFFF",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  로그인하기
+                </button>
+              )}
+            </div>
+          )}
 
           {!loading && !error && data && (
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
@@ -195,6 +227,12 @@ export default function PortfolioDetail({
               </span>
             </div>
           )}
+
+          <p style={{ marginTop: 10, fontSize: 11.5, color: COLORS.textFaint, lineHeight: 1.6 }}>
+            학습용 프로젝트로 만든 서비스이며, 투자 권유가 아닙니다. 투자 판단과 책임은 본인에게 있습니다.
+            <br />
+            출처: 금융위원회 주식시세정보·증권상품시세정보·주식배당정보 (공공데이터포털)
+          </p>
 
           {!readOnly && (
             <>

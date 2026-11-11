@@ -10,15 +10,19 @@
 // 포트폴리오 계산 결과 조회 (PortfolioDetail 에서 사용)
 // 서버: GET /api/portfolio/blend?etfType=&stockType=&etfRatio=
 // 비율이 0 이면 etfType, 100 이면 stockType 은 생략해도 됨
+// 2026-11-11: 에릭 결정으로 로그인 필요(비로그인 401)로 바뀜 — credentials 빠지면 로그인해도 쿠키가 안 보내져서
+// 무조건 401 나므로 반드시 포함. err.status도 붙여야 호출 쪽(PortfolioDetail)에서 401을 구분해서 안내할 수 있음.
 export async function fetchBlend({ etfType, stockType, etfRatio }) {
   const params = new URLSearchParams();
   if (etfType) params.set("etfType", etfType);
   if (stockType) params.set("stockType", stockType);
   params.set("etfRatio", String(etfRatio));
-  const res = await fetch(`/api/portfolio/blend?${params}`);
+  const res = await fetch(`/api/portfolio/blend?${params}`, { credentials: "include" });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error(body.error ?? `HTTP ${res.status}`);
+    const err = new Error(body.error ?? `HTTP ${res.status}`);
+    err.status = res.status;
+    throw err;
   }
   return res.json();
 }

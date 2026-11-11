@@ -29,9 +29,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/demo/**", "/api-test/**", "/error").permitAll()
+                        .requestMatchers( "/error").permitAll()
                         .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
-                        .requestMatchers("/api/portfolio/blend").permitAll()
                         .requestMatchers("/api/data-status").permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth -> oauth

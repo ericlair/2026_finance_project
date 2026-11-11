@@ -4,7 +4,9 @@ import { GOOGLE_LOGIN_URL } from "../api/auth";
 // 구글 로그인 실패 시 백엔드가 /?loginError=true 로 돌려보냄 — 쿼리스트링 읽어서 안내 문구 표시
 const loginFailed = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("loginError") === "true";
 
-export default function Login() {
+// reason="portfolio" — 비로그인 상태로 "포트폴리오 만들기"/"재검사하기"를 눌러서 온 경우, 왜 로그인이 필요한지 바로 알려줌
+// (설문부터 다 풀게 한 다음 마지막에 막으면 속은 느낌이 들 수 있어서, 설문 시작 전인 여기서 미리 안내)
+export default function Login({ reason }) {
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", fontFamily: FONT, background: COLORS.bg }}>
       {/* 좌측 브랜드 패널 */}
@@ -52,6 +54,22 @@ export default function Login() {
         <div style={{ width: "100%", maxWidth: 340 }}>
           <h2 style={{ fontSize: 24, fontWeight: 700, color: COLORS.text, margin: 0 }}>로그인</h2>
           <p style={{ marginTop: 6, fontSize: 13, color: COLORS.textFaint }}>배당 포트폴리오 추천 서비스</p>
+
+          {!loginFailed && reason === "portfolio" && (
+            <p
+              style={{
+                marginTop: 14,
+                padding: "10px 14px",
+                borderRadius: 10,
+                background: COLORS.primaryLight,
+                color: COLORS.primary,
+                fontSize: 12.5,
+                fontWeight: 700,
+              }}
+            >
+              배당 포트폴리오를 받으려면 로그인이 필요해요.
+            </p>
+          )}
 
           {loginFailed && (
             <p
@@ -108,17 +126,6 @@ function GoogleIcon() {
       <path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.1-4 1.1-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1C3.3 21.3 7.3 24 12 24z" />
       <path fill="#FBBC05" d="M5.4 14.3c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3V6.6H1.4C.5 8.3 0 10.1 0 12s.5 3.7 1.4 5.4l4-3.1z" />
       <path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.7l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.4 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8z" />
-    </svg>
-  );
-}
-
-function KakaoIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24">
-      <path
-        fill="#191919"
-        d="M12 3C6.48 3 2 6.48 2 10.8c0 2.76 1.84 5.2 4.6 6.6l-1.17 4.3c-.1.37.3.66.63.45l4.98-3.3c.31.03.63.05.96.05 5.52 0 10-3.48 10-7.8S17.52 3 12 3Z"
-      />
     </svg>
   );
 }

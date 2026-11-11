@@ -86,6 +86,12 @@ export default function Landing({ userName = "회원", investorType = null, isLo
   }, []);
 
   const handleMenuClick = (key) => {
+    // 포트폴리오는 로그인해야 받을 수 있음 — 설문 다 풀고 나서 막으면 속은 느낌이 들 수 있어서
+    // 시작 전인 여기서 바로 로그인으로 보냄(설문/재검사 둘 다)
+    if ((key === "makePortfolio" || key === "resurvey") && !isLoggedIn) {
+      onLogin?.("portfolio");
+      return;
+    }
     if (key === "makePortfolio") {
       // investorType이 있으면(=이미 진단됨) 바로 비율설정으로, 없으면 설문부터
       onNavigate?.(investorType ? "ratioSetting" : "survey");
@@ -112,6 +118,23 @@ export default function Landing({ userName = "회원", investorType = null, isLo
         <div style={{ textAlign: "center" }}>
           <h1 style={{ fontSize: 30, fontWeight: 700, color: COLORS.text, margin: 0 }}>안녕하세요, {userName} 님</h1>
           <p style={{ marginTop: 10, fontSize: 14, color: COLORS.textMuted }}>오늘은 무엇을 도와드릴까요?</p>
+          {/* 비로그인이면 버튼을 누르기 전부터 미리 안내 — 설문 다 풀고 나서 로그인 막으면 속은 느낌이 들 수 있어서 */}
+          {!isLoggedIn && (
+            <p
+              style={{
+                marginTop: 14,
+                display: "inline-block",
+                padding: "8px 16px",
+                borderRadius: 999,
+                background: COLORS.primaryLight,
+                color: COLORS.primary,
+                fontSize: 13,
+                fontWeight: 700,
+              }}
+            >
+              배당 포트폴리오를 받으려면 로그인이 필요해요
+            </p>
+          )}
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: 18, width: "100%", maxWidth: 680 }}>

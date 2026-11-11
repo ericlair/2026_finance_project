@@ -42,6 +42,9 @@ function App() {
     }
   });
 
+  // loginReason — 비로그인으로 "포트폴리오 만들기"를 눌러서 로그인 화면으로 온 경우 "portfolio" (안내문구 표시용)
+  const [loginReason, setLoginReason] = useState(null);
+
   // investorType — GET /api/auth/me 응답값 (사용자당 1건, 덮어쓰기). 백엔드 미연결 시엔 설문 완료 시에만 채워짐
   const [investorType, setInvestorType] = useState(null);
   // user — { name, email } (로그인 안 됐으면 null). getMe()가 401이면 null을 돌려주므로 에러가 아니라 정상 분기로 처리
@@ -182,7 +185,7 @@ function App() {
 
   const PAGES = {
     prologue: <Prologue onFinish={handlePrologueFinish} />,
-    login: <Login />,
+    login: <Login reason={loginReason} />,
     landing: (
       <Landing
         userName={user?.name ?? "회원"}
@@ -190,7 +193,10 @@ function App() {
         isLoggedIn={!!user}
         userInitial={user?.name?.[0]}
         onNavigate={handleLandingNavigate}
-        onLogin={() => setCurrent("login")}
+        onLogin={(reason) => {
+          setLoginReason(reason ?? null);
+          setCurrent("login");
+        }}
         onLogout={handleLogout}
       />
     ),
@@ -231,6 +237,10 @@ function App() {
           setCurrent("ratioSetting");
         }}
         onMyPage={() => setCurrent("myPage")}
+        onLogin={() => {
+          setLoginReason(null);
+          setCurrent("login");
+        }}
       />
     ),
     portfolioDetailSaved: (
@@ -241,6 +251,10 @@ function App() {
         onBack={() => setCurrent("myPage")}
         onNotFound={() => setCurrent("myPage")}
         onMyPage={() => setCurrent("myPage")}
+        onLogin={() => {
+          setLoginReason(null);
+          setCurrent("login");
+        }}
       />
     ),
     myPage: (
@@ -251,7 +265,10 @@ function App() {
         onRetake={handleRetake}
         onResetType={handleResetType}
         onView={handleViewSelection}
-        onLogin={() => setCurrent("login")}
+        onLogin={() => {
+          setLoginReason(null);
+          setCurrent("login");
+        }}
         onLogout={handleLogout}
         onDeleteAccount={handleDeleteAccount}
         onBack={() => setCurrent("landing")}

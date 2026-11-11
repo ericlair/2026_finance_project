@@ -1,0 +1,49 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: incomerecipe-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: investment_portfolio
+      MYSQL_USER: invest_app
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      TZ: Asia/Seoul
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_ai_ci --innodb-buffer-pool-size=128M --max-connections=30 --performance-schema=OFF
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  backend:
+    build: ./backend/investment-portfolio
+    image: incomerecipe-backend
+    container_name: incomerecipe-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/investment_portfolio?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: invest_app
+      DB_PASSWORD: ${DB_PASSWORD}
+      PUBLICDATA_SERVICE_KEY: ${PUBLICDATA_SERVICE_KEY}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      APP_SCHEDULER_ENABLED: "true"
+      APP_FRONTEND_URL: ${APP_FRONTEND_URL:-http://localhost:5173}
+      JAVA_TOOL_OPTIONS: -Xmx512m -XX:MaxMetaspaceSize=192m
+
+  frontend:
+    build: ./frontend/investment-project-frontend
+    image: incomerecipe-frontend
+    container_name: incomerecipe-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+
+volumes:
+  db_data:

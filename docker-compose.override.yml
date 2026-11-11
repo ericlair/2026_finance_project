@@ -1,0 +1,11 @@
+# 로컬 개발용 (docker compose up 하면 docker-compose.yml과 자동으로 합쳐짐)
+# 서버에서는 이 파일을 쓰지 않는다: docker compose -f docker-compose.yml up -d
+services:
+  db:
+    ports:
+      - "127.0.0.1:3307:3306"
+  backend:
+    ports:
+      - "8080:8080"
+    environment:
+      APP_DEMO_ENABLED: "true"

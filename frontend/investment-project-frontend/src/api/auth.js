@@ -9,11 +9,6 @@
 // - 로그인 실패 시 /?loginError=true 로 리다이렉트됨
 export const GOOGLE_LOGIN_URL = "http://localhost:8080/oauth2/authorization/google";
 
-// 카카오 로그인 — 아직 백엔드가 "구글 안정화 후"에 붙인다고 한 상태라 이 URL은 스프링 시큐리티 OAuth2의 기본 경로 규칙
-// (/oauth2/authorization/{registrationId})을 구글과 똑같이 맞춰서 추측한 값입니다. 백엔드에 카카오 라우트가 실제로 뜨면
-// 이 경로가 맞는지 꼭 확인해 주세요 — 다르면 이 상수 값만 바꾸면 됩니다.
-export const KAKAO_LOGIN_URL = "http://localhost:8080/oauth2/authorization/kakao";
-
 // 로그인한 사용자 정보 + 투자성향 조회
 // 200 응답: { id, name, email, investorType, preferredEngine } — email/investorType/preferredEngine은 null일 수 있음
 // preferredEngine: "ETF" | "STOCK" | null — 서버가 들고 있는 값이라, 이번 세션 설문 없이 들어와도 추천 뱃지 표시에 쓸 수 있음
