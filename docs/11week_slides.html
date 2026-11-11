@@ -444,10 +444,22 @@ dl dd{font-size:17px;color:#475569;margin-top:3px}
 <p class="wk">11주차 진행 보고</p>
 <h1>서버 배포 준비</h1>
 <p class="sub">AWS 서버 생성 · 배포 전 정리</p></section><section><h2>이번 주 한 일</h2><div class="part3 big2">
-<div class="pt sv"><div class="pk">서버</div><ul><li>AWS로 서버 구축 · 도메인 연결</li><li>서버 접속 · Docker 설치</li></ul></div>
-<div class="pt be"><div class="pk">배포 전 정리</div><ul><li>외부 공개 범위 줄이기</li><li>로그인 필수로 변경</li></ul></div>
-<div class="pt db"><div class="pk">지난주 이슈</div><ul><li>ETF 0종목 해결</li><li>로그인 후 화면 이동 수정</li></ul></div></div>
-<div class="callout">지난주 피드백 <b>"서버도 해봐야 한다"</b>에 따라 서버에 올리는 준비를 했습니다</div></section><section><h2><span class="sec sv">서버</span>서버 구성</h2>
+<div class="pt ui"><div class="pk">UI</div><ul><li>로그인 필수 흐름</li><li>화면 정리 · 고지 추가</li></ul></div>
+<div class="pt be"><div class="pk">백엔드</div><ul><li>컨테이너 3개 · 서버용 설정</li><li>접근 제한 · ETF 0종목 해결</li></ul></div>
+<div class="pt sv"><div class="pk">서버</div><ul><li>AWS 서버 구축 · 도메인 연결</li><li>서버 접속 · Docker 설치</li></ul></div></div>
+<div class="callout">지난주 피드백 <b>"서버도 해봐야 한다"</b>에 따라 서버에 올리는 준비를 했습니다</div></section><section><h2><span class="sec ui">UI</span>로그인 흐름과 화면 정리</h2><div class="g2 big2">
+<div class="cd"><div class="ct">포트폴리오는 로그인 필수</div><ul>
+<li>비로그인이면 첫 화면에서 로그인 안내</li>
+<li>설문 <b>시작 전에</b> 로그인으로 이동</li>
+<li>로그인 성공 시 첫 화면으로 자동 이동</li></ul></div>
+<div class="cd"><div class="ct">화면 정리</div><ul>
+<li>쓰지 않는 탭 제거, "← 돌아가기" 추가</li>
+<li>어느 화면에서든 마이페이지 · 로그아웃</li>
+<li>결과 화면에 출처 · 투자 권유 아님 고지</li></ul></div></div></section><section><h2><span class="sec be">백엔드</span>배포 준비</h2><div class="part3 big2">
+<div class="pt be"><div class="pk">Docker 구성</div><ul><li>화면 · 서버 · DB 컨테이너 3개</li><li>서버용 · 로컬용 설정 분리</li><li>첫 실행 시 테이블 · 종목 자동 세팅</li></ul></div>
+<div class="pt be"><div class="pk">접근 제한</div><ul><li>DB · 백엔드 포트 외부 공개 제거</li><li>시험용 주소 제거</li><li>포트폴리오 추천은 로그인 필수 (비로그인 401)</li></ul></div>
+<div class="pt be"><div class="pk">데이터</div><ul><li>ETF 분배금 월별 SQL로 적재</li><li>시세는 서버가 직접 받아 채움</li><li>메모리 사용 상한 설정</li></ul></div></div>
+<div class="cd" style="margin-top:18px"><div class="ct">ETF 분배금 API 확인</div><p style="font-size:18px">SEIBro에서 분배금 API를 제공하는 것을 확인 (공공데이터포털이 아니라 이용 조건은 확인 필요).<br>분배금은 <b>한 달에 한 번</b> 갱신이라 지금은 월별 수동 적재로 충분 → <b>API 연동은 추후 진행</b></p></div></section><section><h2><span class="sec sv">서버</span>서버 구성</h2>
 <div class="arch">
 <div class="nd">브라우저</div><i>→</i>
 <div class="nd cd2">무료 도메인<small>DuckDNS</small></div><i>→</i>
@@ -463,13 +475,9 @@ dl dd{font-size:17px;color:#475569;margin-top:3px}
 <div class="pt sv"><div class="pk">서버용 설정</div><ul><li>서버용 · 로컬용 설정 분리</li><li>DB · 백엔드는 외부에서 못 들어오게</li><li>메모리 사용 상한 설정</li><li>비밀 값은 서버에서 직접 작성</li></ul></div>
 <div class="pt sv"><div class="pk">진행</div><ul><li>서버 생성 · 도메인 연결<span class="st2 d">완료</span></li><li>서버 접속 · swap · Docker 설치<span class="st2 d">완료</span></li><li>HTTPS(Caddy) 추가<span class="st2 p">진행</span></li><li>프로젝트 올리기 · 실행<span class="st2 t">예정</span></li></ul></div></div>
 <div class="g2"><div class="cd"><div class="ct">메모리 2GB로 될까</div><p>로컬에서 측정해 보니 서버 + DB가 쉬는 상태에서 <b>약 800MB</b>. 처음 데이터 받을 때는 더 쓰므로 <b>swap(가상 메모리) 2GB</b>를 만들어 둠 → 실행하며 확인 예정</p></div>
-<div class="cd"><div class="ct">시세 데이터</div><p>재배포 금지 조건이라 프로젝트에 넣지 않고, <b>서버가 직접 받아서</b> 채우도록 함</p></div></div></section><section><h2>겪은 문제와 해결</h2>
-<table class="trb"><tr><th style="width:36%">문제</th><th>해결</th></tr>
-<tr><td>ETF 포트폴리오 0종목</td><td>9 · 10월 분배금 데이터 적재</td></tr>
-<tr><td>로그인 후 화면이 그대로</td><td>로그인되면 첫 화면으로 자동 이동</td></tr>
-<tr><td>구글 로그인 주소 오류</td><td>주소 설정 복구</td></tr>
-<tr><td>구글 로그인에 IP 주소 · HTTP 불가</td><td>무료 도메인 + 자동 HTTPS 구조로 변경</td></tr>
-<tr><td>서버 접속(SSH) 시간 초과</td><td>학교 · 집 IP가 달랐음 → 현재 IP 확인 후 규칙에 추가</td></tr></table></section><section><h2>다음 할 일</h2><div class="road" style="max-width:820px">
+<div class="cd"><div class="ct">시세 데이터</div><p>재배포 금지 조건이라 프로젝트에 넣지 않고, <b>서버가 직접 받아서</b> 채우도록 함</p></div></div></section><section><h2>겪은 문제와 해결 <span style="font-size:18px;color:#2563EB;font-weight:800">데이터 · Docker · 화면</span></h2>
+<table class="trb" style="font-size:16px"><tr><th style="width:30%">문제</th><th style="width:36%">원인</th><th>해결</th></tr><tr><td>ETF 포트폴리오 0종목</td><td>초기화 SQL은 DB를 처음 만들 때 한 번만 실행</td><td>월별 SQL 파일로 따로 적재</td></tr><tr><td>DB 도구에서 내보낸 SQL 실행 안 됨</td><td>INSERT 문이 아닌 형식으로 내보내짐</td><td>정상 INSERT 문으로 변환</td></tr><tr><td>화면을 고쳐도 Docker에 반영 안 됨</td><td>컨테이너는 빌드할 때 소스를 복사해 둠</td><td>화면 컨테이너 다시 빌드</td></tr><tr><td>PowerShell에서 DB에 SQL 넣기 실패</td><td>PowerShell이 따옴표를 바꿔 버림</td><td>파이프로 전달하는 방식으로 변경</td></tr><tr><td>구글 로그인 주소 오류</td><td>로그인 주소 변경으로 돌아올 주소가 달라짐</td><td>주소 설정 복구</td></tr><tr><td>로그인 후 화면이 그대로</td><td>로그인 상태를 화면이 반영하지 않음</td><td>로그인되면 첫 화면으로 자동 이동</td></tr></table></section><section><h2>겪은 문제와 해결 <span style="font-size:18px;color:#7c3aed;font-weight:800">서버 · 배포</span></h2>
+<table class="trb" style="font-size:16px"><tr><th style="width:30%">문제</th><th style="width:36%">원인</th><th>해결</th></tr><tr><td>구글 로그인에 서버 IP 사용 불가</td><td>구글은 HTTPS 도메인 주소만 허용</td><td>무료 도메인 + 자동 HTTPS(Caddy)</td></tr><tr><td>서울 리전 선택 불가</td><td>새 계정이 시드니로 고정되어 표시됨</td><td>시드니에서 진행</td></tr><tr><td>서버 접속(SSH) 시간 초과</td><td>같은 장소에서도 내 IP가 바뀌어 규칙과 달라짐</td><td>현재 IP 확인 후 규칙에 추가</td></tr><tr><td>서버에 올린 코드에 컨트롤러 누락</td><td><code>.gitignore</code>의 <code>API/</code> 규칙이 윈도우 대소문자 무시로 <code>api</code> 패키지까지 막음</td><td>최상위 폴더 전용 규칙으로 수정</td></tr><tr><td>리눅스 빌드에서 실행 파일 오류 위험</td><td>윈도우 줄바꿈(CRLF)</td><td>빌드할 때 줄바꿈 변환</td></tr></table></section><section><h2>다음 할 일</h2><div class="road" style="max-width:820px">
 <div class="r"><span class="no2">1</span>프로젝트 올리기 · 서버에서 실행</div>
 <div class="r"><span class="no2">2</span>HTTPS 적용 · 시세 데이터 채우기</div>
 <div class="r"><span class="no2">3</span>서버에서 구글 로그인 확인</div>
