@@ -207,6 +207,7 @@ function App() {
         type={surveyResult?.type}
         engine={surveyResult?.engine}
         scoreA={surveyResult?.scoreA}
+        userInitial={user?.name?.[0]}
         onNext={handleSurveyNext}
         onRetry={handleRetake}
         onMyPage={() => setCurrent("myPage")}
