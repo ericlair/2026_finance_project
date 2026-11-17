@@ -110,12 +110,16 @@ export const QUESTIONS = [
 // (무작위로 답했을 때 대략 25% / 50% / 25%로 나뉘도록 잡은 구간)
 export const CUTOFFS = { PRINCIPAL_MAX: 12, BALANCED_MAX: 15 };
 
-// 결과 화면에 표시할 안정성·수익성 % (유형별 고정값)
-export const TYPE_RATIO = {
-  PRINCIPAL: { stability: 70, profitability: 30 },
-  BALANCED: { stability: 50, profitability: 50 },
-  DIVIDEND: { stability: 30, profitability: 70 },
-};
+// 결과 화면에 표시할 안정성·수익성 % — scoreA(7~21점)를 0~100%로 선형 변환 후 10% 단위로 반올림
+// (이전엔 유형 3개에 고정값 70/30, 50/50, 30/70만 썼는데, 같은 유형 안에서도 점수 차이를 보여주려고 세분화함)
+const SCORE_A_MIN = 7;
+const SCORE_A_MAX = 21;
+
+export function scoreToRatio(scoreA) {
+  const raw = ((scoreA - SCORE_A_MIN) / (SCORE_A_MAX - SCORE_A_MIN)) * 100;
+  const profitability = Math.min(100, Math.max(0, Math.round(raw / 10) * 10));
+  return { stability: 100 - profitability, profitability };
+}
 
 /**
  * answers: 질문 순서(QUESTIONS)와 같은 길이의 배열. 각 값은 그 질문에서 고른 선택지의 index.

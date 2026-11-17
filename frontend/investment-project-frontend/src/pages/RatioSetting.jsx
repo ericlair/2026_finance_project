@@ -102,6 +102,10 @@ export default function RatioSetting({
             })}
           </div>
 
+          <p style={{ marginTop: 10, fontSize: 12, color: COLORS.textFaint }}>
+            설문 추천은 ETF 또는 배당주 중 하나예요. 두 방식을 섞고 싶다면 "함께 운용"을 선택해 직접 비중을 조절하세요.
+          </p>
+
           {/* 도넛 미리보기 */}
           <div style={{ marginTop: 20, padding: 28, background: "#FFFFFF", border: `1px solid ${COLORS.border}`, borderRadius: 16, display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ position: "relative", width: 172, height: 172 }}>

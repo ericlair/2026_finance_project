@@ -1,7 +1,7 @@
 import { COLORS, FONT } from "./theme";
 import Navbar from "./Navbar";
 import { TYPE_NAMES } from "./constants";
-import { TYPE_RATIO } from "./surveyData";
+import { scoreToRatio } from "./surveyData";
 
 const ENGINE_LABEL = { ETF: "ETF", STOCK: "배당주" };
 
@@ -24,8 +24,8 @@ const ENGINE_DESC = {
 
 // type: "PRINCIPAL" | "BALANCED" | "DIVIDEND", engine: "ETF" | "STOCK"  (설문 판정 결과)
 // onNext({ type, engine }) — "포트폴리오 만들기", onRetry() — "다시 검사하기"
-export default function SurveyResult({ type = "BALANCED", engine = "ETF", onNext, onRetry, onMyPage }) {
-  const { stability, profitability } = TYPE_RATIO[type];
+export default function SurveyResult({ type = "BALANCED", engine = "ETF", scoreA = 14, onNext, onRetry, onMyPage }) {
+  const { stability, profitability } = scoreToRatio(scoreA);
   const resultTitle = `${ENGINE_LABEL[engine]} ${TYPE_NAMES[type]}`;
   const accent = ENGINE_ACCENT[engine];
 
