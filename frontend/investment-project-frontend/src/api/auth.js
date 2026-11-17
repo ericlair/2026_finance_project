@@ -1,13 +1,14 @@
 // api/auth.js
-// Vite proxy 설정: /api, /oauth2 → http://localhost:8080 (vite.config.js에서 처리)
+// 개발 중(npm run dev)엔 vite.config.js의 proxy가, 배포(nginx)에선 nginx.conf가 /api, /oauth2를 백엔드로 넘겨주므로
+// 상대경로로 써야 둘 다에서 동작함. 도메인 확정(incomerecipe-study.duckdns.org) + 구글 콘솔 redirect_uri 등록 완료 후
+// 상대경로로 전환 (2026-11-18, 서버 이트 확인)
 
 // 백엔드 이트 확인 사항:
-// - 로그인 버튼은 http://localhost:8080/oauth2/authorization/google 로 이동하는 링크
-//   (구글 콘솔에 등록된 redirect_uri가 이 절대주소 기준이라, 상대경로로 바꾸면 redirect_uri_mismatch 발생 — 2026-11-10 확인)
+// - 로그인 버튼은 /oauth2/authorization/google 로 이동하는 링크
 // - GET /api/auth/me를 credentials: "include"로 호출해 로그인 여부 판단. 401이면 비로그인
 // - 로그아웃은 POST /api/auth/logout, 탈퇴는 DELETE /api/auth/me
 // - 로그인 실패 시 /?loginError=true 로 리다이렉트됨
-export const GOOGLE_LOGIN_URL = "http://localhost:8080/oauth2/authorization/google";
+export const GOOGLE_LOGIN_URL = "/oauth2/authorization/google";
 
 // 로그인한 사용자 정보 + 투자성향 조회
 // 200 응답: { id, name, email, investorType, preferredEngine } — email/investorType/preferredEngine은 null일 수 있음
