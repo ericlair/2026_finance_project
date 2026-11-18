@@ -46,10 +46,15 @@ const PORTFOLIO_KINDS = [
   },
 ];
 
-export default function Intro({ onBack }) {
+export default function Intro({ onBack, isLoggedIn = false, userInitial, onMyPage, onLogin }) {
   return (
     <div style={{ width: "100%", minHeight: "100vh", display: "flex", flexDirection: "column", fontFamily: FONT, background: COLORS.bg }}>
-      <Navbar variant="public" />
+      <Navbar
+        variant={isLoggedIn ? "auth" : "public"}
+        userInitial={userInitial}
+        onMyPage={onMyPage}
+        onLogin={onLogin}
+      />
 
       <div style={{ padding: "44px 64px" }}>
         <div style={{ maxWidth: 1040, margin: "0 auto" }}>
@@ -61,7 +66,7 @@ export default function Intro({ onBack }) {
             내 투자성향에 맞는 배당 포트폴리오 추천
           </h1>
           <p style={{ marginTop: 12, fontSize: 16, lineHeight: 1.7, color: COLORS.textMuted, maxWidth: 600 }}>
-            간단한 설문으로 투자성향을 진단하고, 배당주·ETF로 구성된 맞춤 포트폴리오를 확인해 보세요.
+                               간단한 설문으로 투자성향을 진단하고, 배당주·ETF로 구성된 맞춤 포트폴리오를 확인해 보세요.
           </p>
 
           <SectionHeading>왜 배당 투자인가요?</SectionHeading>

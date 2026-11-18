@@ -200,7 +200,18 @@ function App() {
         onLogout={handleLogout}
       />
     ),
-    intro: <Intro onBack={() => setCurrent("landing")} />,
+    intro: (
+      <Intro
+        onBack={() => setCurrent("landing")}
+        isLoggedIn={!!user}
+        userInitial={user?.name?.[0]}
+        onMyPage={() => setCurrent("myPage")}
+        onLogin={(reason) => {
+          setLoginReason(reason ?? null);
+          setCurrent("login");
+        }}
+      />
+    ),
     survey: <Survey onFinish={handleSurveyComplete} onCancel={handleSurveyCancel} />,
     surveyResult: (
       <SurveyResult
