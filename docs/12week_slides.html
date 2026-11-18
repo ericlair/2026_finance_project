@@ -523,12 +523,16 @@ dl dd{font-size:17px;color:#475569;margin-top:3px}
 <div class="r"><span class="no2">2</span>운영 연습 — 로그 확인, 재시작, DB 백업 · 복구</div>
 <div class="r"><span class="no2">3</span>서버 정리 → 끝</div><div class="r"><span class="no2">4</span>추후 기능 추가 및 확장</div></div>
 </section><section><h2>다음 프로젝트 <span style="font-size:18px;color:#64748b;font-weight:700">구상 중</span></h2>
-<div class="cd" style="padding:26px 34px;margin-bottom:18px"><div class="ct" style="font-size:16px">방향</div><p style="font-size:28px;font-weight:800;color:#0f172a;margin:6px 0 0">ERP(회계) 데이터에 AI를 붙인 업무 자동화</p></div>
+<div class="cd" style="padding:24px 34px;margin-bottom:16px"><div class="ct" style="font-size:16px">방향</div><p style="font-size:28px;font-weight:800;color:#0f172a;margin:6px 0 0">공개 세무회계 문서 기반 업무 도움 AI <span style="font-size:20px;color:#7c3aed">(RAG)</span></p></div>
+<div class="flow3b">
+<div class="fb"><small>질문</small><b>경비 처리 · 접대비 한도 등</b><p>업무 중 궁금한 세무 · 회계 질문</p></div><i>→</i>
+<div class="fb"><small>검색</small><b>관련 문서 찾기</b><p>세법 조문 · 회계기준 · 국세청 질의회신 등 공개 문서</p></div><i>→</i>
+<div class="fb"><small>답변</small><b>근거와 함께 답변</b><p>찾은 조문을 보여 주며 LLM이 설명</p></div></div>
 <div class="part3 big2">
-<div class="pt ui"><div class="pk">바꾼 이유</div><ul><li>새로 만들기보다 기존 시스템 관리 · AI 쪽 (피드백 반영)</li><li>관심 공고들의 공통 요구</li></ul></div>
-<div class="pt be"><div class="pk">기술</div><ul><li>Python · SQL</li><li>로컬 LLM · Docker</li></ul></div>
-<div class="pt sv"><div class="pk">보안 방안</div><ul><li><b>설치형(온프레미스)</b>: DB와 AI를 회사 서버에 함께 설치</li><li>로컬 LLM으로 데이터가 회사 밖으로 나가지 않게</li></ul></div></div>
-<p style="font-size:17px;color:#64748b;margin-top:16px">공개 · 더미 데이터로 시연 · <b>바로 시작</b> · 주제는 구체화 중</p></section><section><h2>논문 투고 예정</h2>
+<div class="pt ui"><div class="pk">바꾼 이유</div><ul><li>새로 만들기보다 기존 업무에 AI (피드백 반영)</li><li>관심 공고들의 공통 요구</li></ul></div>
+<div class="pt be"><div class="pk">기술</div><ul><li>Python · LLM · RAG</li><li>로컬 LLM · Docker</li></ul></div>
+<div class="pt sv"><div class="pk">보안 · 신뢰</div><ul><li>설치형(온프레미스)으로 데이터 외부 유출 방지</li><li>근거 표시 · 참고용 안내</li></ul></div></div>
+<p style="font-size:16px;color:#64748b;margin-top:12px"><b>RAG</b>: AI가 자료를 먼저 찾아 보고 답하게 하는 방식</p></section><section><h2>논문 투고 예정</h2>
 <div class="cd" style="padding:26px 34px;margin-bottom:18px"><div class="ct" style="font-size:16px">인컴레시피</div><p style="font-size:28px;font-weight:800;color:#0f172a;margin:6px 0 0">한국컴퓨터정보학회 동계학술대회</p></div>
 <div class="part3 big2">
 <div class="pt ui"><div class="pk">분야</div><ul><li>컴퓨터응용사례</li><li>응용웹시스템</li></ul></div>
